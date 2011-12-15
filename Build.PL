@@ -14,7 +14,7 @@ my $builder = Module::Build->new(
         'Test::More' => 0.82,  # note()
     },
     requires => {
-        'perl'   => '5.6.0',  # our()
+        'perl'   => '5.8.0',  # Unicode::Normalize
         'parent' => 0,
     },
     meta_merge => {
