@@ -1,0 +1,12 @@
+NAME
+    Unicode::Util - A selection of useful Unicode grapheme-aware functions
+
+AUTHOR
+    Nick Patch <patch@cpan.org>
+
+COPYRIGHT AND LICENSE
+    Copyright 2011 Nick Patch
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
