@@ -1,5 +1,5 @@
 NAME
-    Unicode::Util - A selection of useful Unicode grapheme-aware functions
+    Unicode::Util - Grapheme-aware versions of built-in Perl functions
 
 AUTHOR
     Nick Patch <patch@cpan.org>

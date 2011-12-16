@@ -40,7 +40,7 @@ __END__
 
 =head1 NAME
 
-Unicode::Util - A selection of useful Unicode grapheme-aware functions
+Unicode::Util - Grapheme-aware versions of built-in Perl functions
 
 =head1 VERSION
 
