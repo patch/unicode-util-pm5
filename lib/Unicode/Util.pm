@@ -5,7 +5,6 @@ use strict;
 use warnings;
 use parent 'Exporter';
 use Encode qw( encode_utf8 );
-use Unicode::Normalize;
 
 our $VERSION   = '0.01';
 our @EXPORT_OK = qw(
@@ -29,7 +28,7 @@ sub code_length {
 sub byte_length {
     my ($str) = @_;
     utf8::upgrade($str);
-    return length encode_utf8( NFKC($str) );
+    return length encode_utf8($str);
 }
 
 1;
@@ -93,8 +92,8 @@ count in a string.
 
 =item byte_length($string)
 
-Returns the length in bytes of the given string.  This is the number of bytes
-that many computers would count when storing a string.
+Returns the length in bytes of the given string encoded as UTF-8.  This is the
+number of bytes that many computers would count when storing a string.
 
 =back
 
