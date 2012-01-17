@@ -6,12 +6,9 @@ use warnings;
 use parent 'Exporter';
 use Encode qw( encode_utf8 );
 
-our $VERSION   = '0.01';
-our @EXPORT_OK = qw(
-    graph_length
-    code_length
-    byte_length
-);
+our $VERSION     = '0.01';
+our @EXPORT_OK   = qw( graph_length code_length byte_length );
+our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
 sub graph_length {
     my ($str) = @_;
@@ -59,7 +56,7 @@ This document describes Unicode::Util version 0.01.
 =head1 DESCRIPTION
 
 This module provides additional versions of Perl's built-in functions,
-tailored to work on three different levels:
+tailored to work on three different units:
 
 =over
 
@@ -67,7 +64,7 @@ tailored to work on three different levels:
 
 =item Unicode code points
 
-=item octets (bytes)
+=item bytes (octets)
 
 =back
 
@@ -82,7 +79,8 @@ section for planned future additions.
 =item graph_length($string)
 
 Returns the length in graphemes of the given string.  This is likely the
-number of "characters" that many people would count on a printed string.
+number of "characters" that many people would count on a printed string, plus
+non-printing characters.
 
 =item code_length($string)
 
@@ -104,7 +102,7 @@ graph_index code_index byte_index graph_rindex code_rindex byte_rindex
 
 =head1 SEE ALSO
 
-These functions are based on the methods provided by L<Perl6::Str>.
+The C<length> functions are based on methods provided by L<Perl6::Str>.
 
 =head1 AUTHOR
 

@@ -1,11 +1,60 @@
 NAME
-    Unicode::Util - Grapheme-aware versions of built-in Perl functions
+    Unicode::Util - Unicode-aware versions of built-in Perl functions
+
+VERSION
+    This document describes Unicode::Util version 0.01.
+
+SYNOPSIS
+        use Unicode::Util;
+
+        # grapheme cluster: Cyrillic small letter yu + combining acute accent
+        my $grapheme = "\x{44E}\x{301}";
+
+        say graph_length($grapheme);  # 1
+        say code_length($grapheme);   # 2
+        say byte_length($grapheme);   # 4
+
+DESCRIPTION
+    This module provides additional versions of Perl's built-in functions,
+    tailored to work on three different units:
+
+    Unicode extended grapheme clusters (graphemes)
+    Unicode code points
+    bytes (octets)
+
+    This is an early release and this module is likely to have major
+    revisions. Only the "length" functions are currently implemented. See
+    the "TODO" section for planned future additions.
+
+FUNCTIONS
+    graph_length($string)
+        Returns the length in graphemes of the given string. This is likely
+        the number of "characters" that many people would count on a printed
+        string, plus non-printing characters.
+
+    code_length($string)
+        Returns the length in code points of the given string. This is
+        likely the number of "characters" that many programmers and
+        programming languages would count in a string.
+
+    byte_length($string)
+        Returns the length in bytes of the given string encoded as UTF-8.
+        This is the number of bytes that many computers would count when
+        storing a string.
+
+TODO
+    graph_reverse graph_chop graph_split graph_substr code_substr
+    byte_substr graph_index code_index byte_index graph_rindex code_rindex
+    byte_rindex
+
+SEE ALSO
+    The "length" functions are based on methods provided by Perl6::Str.
 
 AUTHOR
     Nick Patch <patch@cpan.org>
 
 COPYRIGHT AND LICENSE
-    Copyright 2011 Nick Patch
+    © 2011–2012 Nick Patch
 
     This library is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
