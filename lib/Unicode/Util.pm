@@ -6,8 +6,11 @@ use warnings;
 use parent 'Exporter';
 use Encode qw( encode_utf8 );
 
-our $VERSION     = '0.01';
-our @EXPORT_OK   = qw( graph_length code_length byte_length );
+our $VERSION   = '0.01';
+our @EXPORT_OK = qw(
+    graph_length code_length byte_length
+    graph_chop   code_chop
+);
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
 sub graph_length {
@@ -26,6 +29,19 @@ sub byte_length {
     my ($str) = @_;
     utf8::upgrade($str);
     return length encode_utf8($str);
+}
+
+sub graph_chop {
+    my $str = \$_[0];
+    utf8::upgrade($$str);
+    $$str =~ s/(\X)$//;
+    return $1;
+}
+
+sub code_chop {
+    my $str = \$_[0];
+    utf8::upgrade($$str);
+    return chop $$str;
 }
 
 1;
@@ -93,6 +109,16 @@ count in a string.
 Returns the length in bytes of the given string encoded as UTF-8.  This is the
 number of bytes that many computers would count when storing a string.
 
+=item graph_chop($string)
+
+Chops off the last grapheme of the given string and returns the grapheme
+chopped.
+
+=item code_chop($string)
+
+Chops off the last codepoint of the given string and returns the codepoint
+chopped.
+
 =back
 
 =head1 TODO
@@ -100,7 +126,7 @@ number of bytes that many computers would count when storing a string.
 Evaluate the following core Perl functions and operators for the potential
 addition to this module.
 
-C<chop>, C<reverse>, C<split>, C<substr>, C<index>, C<rindex>,
+C<reverse>, C<split>, C<substr>, C<index>, C<rindex>,
 C<eq>, C<ne>, C<lt>, C<gt>, C<le>, C<ge>, C<cmp>
 
 =head1 SEE ALSO
