@@ -55,21 +55,21 @@ This document describes Unicode::Util version 0.01.
 
 =head1 DESCRIPTION
 
-This module provides additional versions of Perl's built-in functions,
+This module provides additional versions of Perl’s built-in functions,
 tailored to work on three different units:
 
 =over
 
-=item Unicode extended grapheme clusters (graphemes)
+=item * graph: Unicode extended grapheme clusters (graphemes)
 
-=item Unicode code points
+=item * code: Unicode codepoints
 
-=item bytes (octets)
+=item * byte: 8-bit bytes (octets)
 
 =back
 
 This is an early release and this module is likely to have major revisions.
-Only the C<length> functions are currently implemented.  See the L</TODO>
+Only the C<length>-functions are currently implemented.  See the L</TODO>
 section for planned future additions.
 
 =head1 FUNCTIONS
@@ -84,7 +84,7 @@ non-printing characters.
 
 =item code_length($string)
 
-Returns the length in code points of the given string.  This is likely the
+Returns the length in codepoints of the given string.  This is likely the
 number of "characters" that many programmers and programming languages would
 count in a string.
 
@@ -97,12 +97,15 @@ number of bytes that many computers would count when storing a string.
 
 =head1 TODO
 
-graph_reverse graph_chop graph_split graph_substr code_substr byte_substr
-graph_index code_index byte_index graph_rindex code_rindex byte_rindex
+Evaluate the following core Perl functions and operators for the potential
+addition to this module.
+
+C<chop>, C<reverse>, C<split>, C<substr>, C<index>, C<rindex>,
+C<eq>, C<ne>, C<lt>, C<gt>, C<le>, C<ge>, C<cmp>
 
 =head1 SEE ALSO
 
-The C<length> functions are based on methods provided by L<Perl6::Str>.
+The C<length>-functions are based on methods provided by L<Perl6::Str>.
 
 =head1 AUTHOR
 

@@ -15,15 +15,17 @@ SYNOPSIS
         say byte_length($grapheme);   # 4
 
 DESCRIPTION
-    This module provides additional versions of Perl's built-in functions,
+    This module provides additional versions of Perl’s built-in functions,
     tailored to work on three different units:
 
-    Unicode extended grapheme clusters (graphemes)
-    Unicode code points
-    bytes (octets)
+    *   graph: Unicode extended grapheme clusters (graphemes)
+
+    *   code: Unicode codepoints
+
+    *   byte: 8-bit bytes (octets)
 
     This is an early release and this module is likely to have major
-    revisions. Only the "length" functions are currently implemented. See
+    revisions. Only the "length"-functions are currently implemented. See
     the "TODO" section for planned future additions.
 
 FUNCTIONS
@@ -33,9 +35,9 @@ FUNCTIONS
         string, plus non-printing characters.
 
     code_length($string)
-        Returns the length in code points of the given string. This is
-        likely the number of "characters" that many programmers and
-        programming languages would count in a string.
+        Returns the length in codepoints of the given string. This is likely
+        the number of "characters" that many programmers and programming
+        languages would count in a string.
 
     byte_length($string)
         Returns the length in bytes of the given string encoded as UTF-8.
@@ -43,12 +45,14 @@ FUNCTIONS
         storing a string.
 
 TODO
-    graph_reverse graph_chop graph_split graph_substr code_substr
-    byte_substr graph_index code_index byte_index graph_rindex code_rindex
-    byte_rindex
+    Evaluate the following core Perl functions and operators for the
+    potential addition to this module.
+
+    "chop", "reverse", "split", "substr", "index", "rindex", "eq", "ne",
+    "lt", "gt", "le", "ge", "cmp"
 
 SEE ALSO
-    The "length" functions are based on methods provided by Perl6::Str.
+    The "length"-functions are based on methods provided by Perl6::Str.
 
 AUTHOR
     Nick Patch <patch@cpan.org>
