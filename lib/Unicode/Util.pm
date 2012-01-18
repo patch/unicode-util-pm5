@@ -103,6 +103,8 @@ implemented.  See the L</TODO> section for planned future additions.
 
 =head1 FUNCTIONS
 
+=head2 length
+
 =over
 
 =item graph_length($string)
@@ -122,15 +124,27 @@ count in a string.
 Returns the length in bytes of the given string encoded as UTF-8.  This is the
 number of bytes that many computers would count when storing a string.
 
+=back
+
+=head2 chop
+
+These do not modify the original value, unlike the built-in C<chop>.
+
+=over
+
 =item graph_chop($string)
 
-Returns the given string with the last grapheme chopped off.  This does not
-modify the original value, unlike the built-in C<chop>.
+Returns the given string with the last grapheme chopped off.
 
 =item code_chop($string)
 
-Returns the given string with the last codepoint chopped off.  This does not
-modify the original value, unlike the built-in C<chop>.
+Returns the given string with the last codepoint chopped off.
+
+=back
+
+=head2 reverse
+
+=over
 
 =item graph_reverse($string)
 
@@ -145,10 +159,6 @@ addition to this module.
 
 C<split>, C<substr>, C<index>, C<rindex>,
 C<eq>, C<ne>, C<lt>, C<gt>, C<le>, C<ge>, C<cmp>
-
-=head1 SEE ALSO
-
-The C<length>-functions are based on methods provided by L<Perl6::Str>.
 
 =head1 AUTHOR
 
