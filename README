@@ -2,7 +2,7 @@ NAME
     Unicode::Util - Unicode-aware versions of built-in Perl functions
 
 VERSION
-    This document describes Unicode::Util version 0.02.
+    This document describes Unicode::Util version 0.03.
 
 SYNOPSIS
         use Unicode::Util qw( graph_length code_length byte_length );
@@ -25,10 +25,12 @@ DESCRIPTION
     *   byte: 8-bit bytes (octets)
 
     This is an early release and this module is likely to have major
-    revisions. Only the "length"-functions are currently implemented. See
-    the "TODO" section for planned future additions.
+    revisions. Only the "length"-, "chop"-, and "reverse"-functions are
+    currently implemented. See the "TODO" section for planned future
+    additions.
 
 FUNCTIONS
+  length
     graph_length($string)
         Returns the length in graphemes of the given string. This is likely
         the number of “characters” that many people would count on a printed
@@ -44,23 +46,26 @@ FUNCTIONS
         This is the number of bytes that many computers would count when
         storing a string.
 
+  chop
+    These do not modify the original value, unlike the built-in "chop".
+
     graph_chop($string)
-        Chops off the last grapheme of the given string and returns the
-        grapheme chopped.
+        Returns the given string with the last grapheme chopped off.
 
     code_chop($string)
-        Chops off the last codepoint of the given string and returns the
-        codepoint chopped.
+        Returns the given string with the last codepoint chopped off.
+
+  reverse
+    graph_reverse($string)
+        Returns the given string value with all graphemes in the opposite
+        order.
 
 TODO
     Evaluate the following core Perl functions and operators for the
     potential addition to this module.
 
-    "reverse", "split", "substr", "index", "rindex", "eq", "ne", "lt", "gt",
-    "le", "ge", "cmp"
-
-SEE ALSO
-    The "length"-functions are based on methods provided by Perl6::Str.
+    "split", "substr", "index", "rindex", "eq", "ne", "lt", "gt", "le",
+    "ge", "cmp"
 
 AUTHOR
     Nick Patch <patch@cpan.org>
