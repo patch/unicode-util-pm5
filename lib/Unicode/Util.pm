@@ -3,10 +3,11 @@ package Unicode::Util;
 use 5.008;
 use strict;
 use warnings;
+use utf8;
 use parent 'Exporter';
 use Encode qw( encode_utf8 );
 
-our $VERSION   = '0.01';
+our $VERSION   = '0.02';
 our @EXPORT_OK = qw(
     graph_length code_length byte_length
     graph_chop   code_chop
@@ -56,13 +57,13 @@ Unicode::Util - Unicode-aware versions of built-in Perl functions
 
 =head1 VERSION
 
-This document describes Unicode::Util version 0.01.
+This document describes Unicode::Util version 0.02.
 
 =head1 SYNOPSIS
 
-    use Unicode::Util;
+    use Unicode::Util qw( graph_length code_length byte_length );
 
-    # grapheme cluster: Cyrillic small letter yu + combining acute accent
+    # grapheme cluster ю́: Cyrillic small letter yu + combining acute accent
     my $grapheme = "\x{44E}\x{301}";
 
     say graph_length($grapheme);  # 1
@@ -95,13 +96,13 @@ section for planned future additions.
 =item graph_length($string)
 
 Returns the length in graphemes of the given string.  This is likely the
-number of "characters" that many people would count on a printed string, plus
+number of “characters” that many people would count on a printed string, plus
 non-printing characters.
 
 =item code_length($string)
 
 Returns the length in codepoints of the given string.  This is likely the
-number of "characters" that many programmers and programming languages would
+number of “characters” that many programmers and programming languages would
 count in a string.
 
 =item byte_length($string)

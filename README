@@ -2,12 +2,12 @@ NAME
     Unicode::Util - Unicode-aware versions of built-in Perl functions
 
 VERSION
-    This document describes Unicode::Util version 0.01.
+    This document describes Unicode::Util version 0.02.
 
 SYNOPSIS
-        use Unicode::Util;
+        use Unicode::Util qw( graph_length code_length byte_length );
 
-        # grapheme cluster: Cyrillic small letter yu + combining acute accent
+        # grapheme cluster ю́: Cyrillic small letter yu + combining acute accent
         my $grapheme = "\x{44E}\x{301}";
 
         say graph_length($grapheme);  # 1
@@ -31,12 +31,12 @@ DESCRIPTION
 FUNCTIONS
     graph_length($string)
         Returns the length in graphemes of the given string. This is likely
-        the number of "characters" that many people would count on a printed
+        the number of “characters” that many people would count on a printed
         string, plus non-printing characters.
 
     code_length($string)
         Returns the length in codepoints of the given string. This is likely
-        the number of "characters" that many programmers and programming
+        the number of “characters” that many programmers and programming
         languages would count in a string.
 
     byte_length($string)
@@ -44,12 +44,20 @@ FUNCTIONS
         This is the number of bytes that many computers would count when
         storing a string.
 
+    graph_chop($string)
+        Chops off the last grapheme of the given string and returns the
+        grapheme chopped.
+
+    code_chop($string)
+        Chops off the last codepoint of the given string and returns the
+        codepoint chopped.
+
 TODO
     Evaluate the following core Perl functions and operators for the
     potential addition to this module.
 
-    "chop", "reverse", "split", "substr", "index", "rindex", "eq", "ne",
-    "lt", "gt", "le", "ge", "cmp"
+    "reverse", "split", "substr", "index", "rindex", "eq", "ne", "lt", "gt",
+    "le", "ge", "cmp"
 
 SEE ALSO
     The "length"-functions are based on methods provided by Perl6::Str.

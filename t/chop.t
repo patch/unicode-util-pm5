@@ -1,9 +1,10 @@
 use strict;
 use warnings;
+use utf8;
 use Test::More tests => 4;
 use Unicode::Util qw( graph_chop code_chop );
 
-my $grapheme = "x\x{44E}\x{301}";
+my $grapheme = "x\x{44E}\x{301}";  # ю́
 
 is graph_chop($grapheme), "\x{44E}\x{301}", 'graph_chop returns last grapheme';
 is $grapheme, 'x', 'graph_chop leaves all but last grapheme';

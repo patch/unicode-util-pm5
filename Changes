@@ -1,6 +1,12 @@
 # Revision history for Perl module Unicode::Util
 ---
+version: 0.02
+date:    2012-01-17
+changes:
+  - Added graph_chop and code_chop
+---
 version: 0.01
 date:    2012-01-17
 changes:
   - First release
+  - Includes graph_length, code_length, and byte_length
