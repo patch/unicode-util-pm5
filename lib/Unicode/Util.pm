@@ -77,11 +77,11 @@ tailored to work on three different units:
 
 =over
 
-=item * graph: Unicode extended grapheme clusters (graphemes)
+=item * B<graph:> Unicode extended grapheme clusters (graphemes)
 
-=item * code: Unicode codepoints
+=item * B<code:> Unicode codepoints
 
-=item * byte: 8-bit bytes (octets)
+=item * B<byte:> 8-bit bytes (octets)
 
 =back
 
