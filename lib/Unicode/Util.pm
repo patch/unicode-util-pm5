@@ -9,8 +9,9 @@ use Encode qw( encode_utf8 );
 
 our $VERSION   = '0.02';
 our @EXPORT_OK = qw(
-    graph_length code_length byte_length
-    graph_chop   code_chop
+    graph_length  code_length  byte_length
+    graph_chop    code_chop
+    graph_reverse
 );
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
@@ -43,6 +44,16 @@ sub code_chop {
     my $str = \$_[0];
     utf8::upgrade($$str);
     return chop $$str;
+}
+
+sub graph_reverse {
+    my ($str) = @_;
+    utf8::upgrade($str);
+    my $reverse = '';
+    while ( $str =~ s/(\X)\z// ) {
+        $reverse .= $1;
+    }
+    return $reverse;
 }
 
 1;
@@ -86,8 +97,8 @@ tailored to work on three different units:
 =back
 
 This is an early release and this module is likely to have major revisions.
-Only the C<length>-functions are currently implemented.  See the L</TODO>
-section for planned future additions.
+Only the C<length>-, C<chop>-, and C<reverse>-functions are currently
+implemented.  See the L</TODO> section for planned future additions.
 
 =head1 FUNCTIONS
 
@@ -120,6 +131,10 @@ chopped.
 Chops off the last codepoint of the given string and returns the codepoint
 chopped.
 
+=item graph_reverse($string)
+
+Returns the given string value with all graphemes in the opposite order.
+
 =back
 
 =head1 TODO
@@ -127,7 +142,7 @@ chopped.
 Evaluate the following core Perl functions and operators for the potential
 addition to this module.
 
-C<reverse>, C<split>, C<substr>, C<index>, C<rindex>,
+C<split>, C<substr>, C<index>, C<rindex>,
 C<eq>, C<ne>, C<lt>, C<gt>, C<le>, C<ge>, C<cmp>
 
 =head1 SEE ALSO
