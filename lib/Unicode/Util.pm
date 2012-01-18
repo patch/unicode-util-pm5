@@ -34,16 +34,17 @@ sub byte_length {
 }
 
 sub graph_chop {
-    my $str = \$_[0];
-    utf8::upgrade($$str);
-    $$str =~ s/(\X)$//;
-    return $1;
+    my ($str) = @_;
+    utf8::upgrade($str);
+    $str =~ s/(\X)\z//;
+    return $str;
 }
 
 sub code_chop {
-    my $str = \$_[0];
-    utf8::upgrade($$str);
-    return chop $$str;
+    my ($str) = @_;
+    utf8::upgrade($str);
+    chop $str;
+    return $str;
 }
 
 sub graph_reverse {
@@ -123,13 +124,13 @@ number of bytes that many computers would count when storing a string.
 
 =item graph_chop($string)
 
-Chops off the last grapheme of the given string and returns the grapheme
-chopped.
+Returns the given string with the last grapheme chopped off.  This does not
+modify the original value, unlike the built-in C<chop>.
 
 =item code_chop($string)
 
-Chops off the last codepoint of the given string and returns the codepoint
-chopped.
+Returns the given string with the last codepoint chopped off.  This does not
+modify the original value, unlike the built-in C<chop>.
 
 =item graph_reverse($string)
 
