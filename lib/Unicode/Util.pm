@@ -157,8 +157,8 @@ Returns the given string value with all graphemes in the opposite order.
 Evaluate the following core Perl functions and operators for the potential
 addition to this module.
 
-C<split>, C<substr>, C<index>, C<rindex>,
-C<eq>, C<ne>, C<lt>, C<gt>, C<le>, C<ge>, C<cmp>
+C<substr>, C<index>, C<rindex>, C<eq>, C<ne>, C<lt>, C<gt>, C<le>, C<ge>,
+C<cmp>
 
 =head1 AUTHOR
 
