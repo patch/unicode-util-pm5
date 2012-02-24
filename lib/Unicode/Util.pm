@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use utf8;
 use parent 'Exporter';
-use Encode qw( encode_utf8 );
+use Encode qw( encode find_encoding );
 
 our $VERSION   = '0.03_1';
 our @EXPORT_OK = qw(
@@ -14,6 +14,8 @@ our @EXPORT_OK = qw(
     graph_reverse
 );
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
+
+use constant DEFAULT_ENCODING => 'UTF-8';
 
 sub graph_length {
     my ($str) = @_;
@@ -28,9 +30,14 @@ sub code_length {
 }
 
 sub byte_length {
-    my ($str) = @_;
+    my ($str, $enc) = @_;
     utf8::upgrade($str);
-    return length encode_utf8($str);
+
+    if ( !$enc || !find_encoding($enc) ) {
+        $enc = DEFAULT_ENCODING;
+    }
+
+    return length encode($enc, $str);
 }
 
 sub graph_chop {
@@ -121,8 +128,10 @@ count in a string.
 
 =item byte_length($string)
 
-Returns the length in bytes of the given string encoded as UTF-8.  This is the
-number of bytes that many computers would count when storing a string.
+=item byte_length($string, $encoding)
+
+Returns the length in bytes of the given string if it were encoded using the
+specified encoding or UTF-8 if no encoding is supplied.
 
 =back
 
