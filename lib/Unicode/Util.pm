@@ -160,6 +160,10 @@ addition to this module.
 C<substr>, C<index>, C<rindex>, C<eq>, C<ne>, C<lt>, C<gt>, C<le>, C<ge>,
 C<cmp>
 
+=head1 SEE ALSO
+
+L<String::Multibyte>, L<Perl6::Str>, L<http://perlcabal.org/syn/S32/Str.html>
+
 =head1 AUTHOR
 
 Nick Patch <patch@cpan.org>
