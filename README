@@ -2,7 +2,7 @@ NAME
     Unicode::Util - Unicode-aware versions of built-in Perl functions
 
 VERSION
-    This document describes Unicode::Util version 0.03.
+    This document describes Unicode::Util version 0.04.
 
 SYNOPSIS
         use Unicode::Util qw( graph_length code_length byte_length );
@@ -42,9 +42,9 @@ FUNCTIONS
         languages would count in a string.
 
     byte_length($string)
-        Returns the length in bytes of the given string encoded as UTF-8.
-        This is the number of bytes that many computers would count when
-        storing a string.
+    byte_length($string, $encoding)
+        Returns the length in bytes of the given string if it were encoded
+        using the specified encoding or UTF-8 if no encoding is supplied.
 
   chop
     These do not modify the original value, unlike the built-in "chop".
@@ -64,8 +64,10 @@ TODO
     Evaluate the following core Perl functions and operators for the
     potential addition to this module.
 
-    "split", "substr", "index", "rindex", "eq", "ne", "lt", "gt", "le",
-    "ge", "cmp"
+    "substr", "index", "rindex", "eq", "ne", "lt", "gt", "le", "ge", "cmp"
+
+SEE ALSO
+    String::Multibyte, Perl6::Str, <http://perlcabal.org/syn/S32/Str.html>
 
 AUTHOR
     Nick Patch <patch@cpan.org>

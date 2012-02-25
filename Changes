@@ -1,7 +1,7 @@
 # Revision history for Perl module Unicode::Util
 ---
 version: 0.04
-date:    XXX
+date:    2012-02-24
 changes:
   - Added optional second argument to byte_length to specify the encoding,
     with the default remaining UTF-8
