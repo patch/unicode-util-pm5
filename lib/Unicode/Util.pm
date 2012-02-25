@@ -6,6 +6,7 @@ use warnings;
 use utf8;
 use parent 'Exporter';
 use Encode qw( encode find_encoding );
+use Unicode::Normalize qw( normalize );
 
 our $VERSION   = '0.04';
 our @EXPORT_OK = qw(
@@ -16,6 +17,7 @@ our @EXPORT_OK = qw(
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
 use constant DEFAULT_ENCODING => 'UTF-8';
+use constant IS_NORMAL_FORM   => qr{^ (?:NF)? K? [CD] $}xi;
 
 sub graph_length {
     my ($str) = @_;
@@ -24,17 +26,26 @@ sub graph_length {
 }
 
 sub code_length {
-    my ($str) = @_;
+    my ($str, $nf) = @_;
     utf8::upgrade($str);
+
+    if ($nf && $nf =~ IS_NORMAL_FORM) {
+        $str = normalize($nf, $str);
+    }
+
     return length $str;
 }
 
 sub byte_length {
-    my ($str, $enc) = @_;
+    my ($str, $enc, $nf) = @_;
     utf8::upgrade($str);
 
     if ( !$enc || !find_encoding($enc) ) {
         $enc = DEFAULT_ENCODING;
+    }
+
+    if ($nf && $nf =~ IS_NORMAL_FORM) {
+        $str = normalize($nf, $str);
     }
 
     return length encode($enc, $str);
