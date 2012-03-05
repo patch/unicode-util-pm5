@@ -30,7 +30,7 @@ sub code_length {
     utf8::upgrade($str);
 
     if ($nf && $nf =~ IS_NORMAL_FORM) {
-        $str = normalize($nf, $str);
+        $str = normalize(uc $nf, $str);
     }
 
     return length $str;
@@ -45,7 +45,7 @@ sub byte_length {
     }
 
     if ($nf && $nf =~ IS_NORMAL_FORM) {
-        $str = normalize($nf, $str);
+        $str = normalize(uc $nf, $str);
     }
 
     return length encode($enc, $str);
@@ -133,16 +133,26 @@ non-printing characters.
 
 =item code_length($string)
 
+=item code_length($string, $normal_form)
+
 Returns the length in codepoints of the given string.  This is likely the
 number of “characters” that many programmers and programming languages would
-count in a string.
+count in a string.  If the optional Unicode normalization form is supplied,
+the length will be of the string as if it had been normalized to that form.
+
+Valid normalization forms are C<C> or C<NFC>, C<D> or C<NFD>, C<KC> or
+C<NFKC>, and C<KD> or C<NFKD>.
 
 =item byte_length($string)
 
 =item byte_length($string, $encoding)
 
-Returns the length in bytes of the given string if it were encoded using the
-specified encoding or UTF-8 if no encoding is supplied.
+=item byte_length($string, $encoding, $normal_form)
+
+Returns the length in bytes of the given string as if it were encoded using
+the specified encoding or UTF-8 if no encoding is supplied.  If the optional
+Unicode normalization form is supplied, the length will be of the string as if
+it had been normalized to that form.
 
 =back
 
