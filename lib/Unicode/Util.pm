@@ -8,7 +8,7 @@ use parent 'Exporter';
 use Encode qw( encode find_encoding );
 use Unicode::Normalize qw( normalize );
 
-our $VERSION   = '0.05';
+our $VERSION   = '0.05_1';
 our @EXPORT_OK = qw(
     graph_length  code_length  byte_length
     graph_chop    code_chop
@@ -58,6 +58,9 @@ sub graph_chop {
     return $str;
 }
 
+# code_chop is deprecated: it's easy to do using core syntax and this module
+# will only implement grapheme cluster functions going forward, except for
+# code_length and byte_length
 sub code_chop {
     my ($str) = @_;
     utf8::upgrade($str);
@@ -89,7 +92,7 @@ Unicode::Util - Unicode-aware versions of built-in Perl functions
 
 =head1 VERSION
 
-This document describes Unicode::Util version 0.05.
+This document describes Unicode::Util version 0.05_1.
 
 =head1 SYNOPSIS
 
@@ -167,10 +170,6 @@ These do not modify the original value, unlike the built-in C<chop>.
 =item graph_chop($string)
 
 Returns the given string with the last grapheme cluster chopped off.
-
-=item code_chop($string)
-
-Returns the given string with the last code point chopped off.
 
 =back
 
