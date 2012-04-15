@@ -1,5 +1,11 @@
 # Revision history for Perl module Unicode::Util
 ---
+version: 0.05
+date:    2012-03-04
+changes:
+  - Added additional argument to code_length and byte_length to optionally
+    specify the normalization form
+---
 version: 0.04
 date:    2012-02-24
 changes:

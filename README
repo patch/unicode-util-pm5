@@ -2,7 +2,7 @@ NAME
     Unicode::Util - Unicode-aware versions of built-in Perl functions
 
 VERSION
-    This document describes Unicode::Util version 0.04.
+    This document describes Unicode::Util version 0.05.
 
 SYNOPSIS
         use Unicode::Util qw( graph_length code_length byte_length );
@@ -10,9 +10,9 @@ SYNOPSIS
         # grapheme cluster ю́: Cyrillic small letter yu + combining acute accent
         my $grapheme = "\x{44E}\x{301}";
 
-        say graph_length($grapheme);  # 1
-        say code_length($grapheme);   # 2
-        say byte_length($grapheme);   # 4
+        say graph_length($grapheme);          # 1
+        say code_length($grapheme);           # 2
+        say byte_length($grapheme, 'UTF-8');  # 4
 
 DESCRIPTION
     This module provides additional versions of Perl’s built-in functions,
@@ -37,14 +37,24 @@ FUNCTIONS
         string, plus non-printing characters.
 
     code_length($string)
+    code_length($string, $normal_form)
         Returns the length in codepoints of the given string. This is likely
         the number of “characters” that many programmers and programming
-        languages would count in a string.
+        languages would count in a string. If the optional Unicode
+        normalization form is supplied, the length will be of the string as
+        if it had been normalized to that form.
+
+        Valid normalization forms are "C" or "NFC", "D" or "NFD", "KC" or
+        "NFKC", and "KD" or "NFKD".
 
     byte_length($string)
     byte_length($string, $encoding)
-        Returns the length in bytes of the given string if it were encoded
-        using the specified encoding or UTF-8 if no encoding is supplied.
+    byte_length($string, $encoding, $normal_form)
+        Returns the length in bytes of the given string as if it were
+        encoded using the specified encoding or UTF-8 if no encoding is
+        supplied. If the optional Unicode normalization form is supplied,
+        the length will be of the string as if it had been normalized to
+        that form.
 
   chop
     These do not modify the original value, unlike the built-in "chop".

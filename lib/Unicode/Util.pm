@@ -8,7 +8,7 @@ use parent 'Exporter';
 use Encode qw( encode find_encoding );
 use Unicode::Normalize qw( normalize );
 
-our $VERSION   = '0.04_1';
+our $VERSION   = '0.05';
 our @EXPORT_OK = qw(
     graph_length  code_length  byte_length
     graph_chop    code_chop
@@ -69,9 +69,11 @@ sub graph_reverse {
     my ($str) = @_;
     utf8::upgrade($str);
     my $reverse = '';
+
     while ( $str =~ s/(\X)\z// ) {
         $reverse .= $1;
     }
+
     return $reverse;
 }
 
@@ -87,7 +89,7 @@ Unicode::Util - Unicode-aware versions of built-in Perl functions
 
 =head1 VERSION
 
-This document describes Unicode::Util version 0.04_1.
+This document describes Unicode::Util version 0.05.
 
 =head1 SYNOPSIS
 
@@ -96,9 +98,9 @@ This document describes Unicode::Util version 0.04_1.
     # grapheme cluster ю́: Cyrillic small letter yu + combining acute accent
     my $grapheme = "\x{44E}\x{301}";
 
-    say graph_length($grapheme);  # 1
-    say code_length($grapheme);   # 2
-    say byte_length($grapheme);   # 4
+    say graph_length($grapheme);          # 1
+    say code_length($grapheme);           # 2
+    say byte_length($grapheme, 'UTF-8');  # 4
 
 =head1 DESCRIPTION
 
