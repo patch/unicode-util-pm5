@@ -14,7 +14,10 @@ our @EXPORT_OK = qw(
     graph_chop    code_chop
     graph_reverse
 );
-our %EXPORT_TAGS = ( all => \@EXPORT_OK );
+our %EXPORT_TAGS = (
+    all    => \@EXPORT_OK,
+    length => qw( graph_length code_length byte_length ),
+);
 
 use constant DEFAULT_ENCODING => 'UTF-8';
 use constant IS_NORMAL_FORM   => qr{^ (?:NF)? K? [CD] $}xi;
