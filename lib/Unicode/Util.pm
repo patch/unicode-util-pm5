@@ -109,9 +109,9 @@ tailored to work on three different units:
 
 =over
 
-=item * B<graph:> Unicode extended grapheme clusters (graphemes)
+=item * B<graph:> Unicode extended grapheme clusters
 
-=item * B<code:> Unicode codepoints
+=item * B<code:> Unicode code points
 
 =item * B<byte:> 8-bit bytes (octets)
 
@@ -129,15 +129,15 @@ implemented.  See the L</TODO> section for planned future additions.
 
 =item graph_length($string)
 
-Returns the length in graphemes of the given string.  This is likely the
-number of “characters” that many people would count on a printed string, plus
-non-printing characters.
+Returns the length of the given string in grapheme clusters.  This is likely
+the number of “characters” that many people would count on a printed string,
+plus non-printing characters.
 
 =item code_length($string)
 
 =item code_length($string, $normal_form)
 
-Returns the length in codepoints of the given string.  This is likely the
+Returns the length of the given string in code points.  This is likely the
 number of “characters” that many programmers and programming languages would
 count in a string.  If the optional Unicode normalization form is supplied,
 the length will be of the string as if it had been normalized to that form.
@@ -151,7 +151,7 @@ C<NFKC>, and C<KD> or C<NFKD>.
 
 =item byte_length($string, $encoding, $normal_form)
 
-Returns the length in bytes of the given string as if it were encoded using
+Returns the length of the given string in bytes, as if it were encoded using
 the specified encoding or UTF-8 if no encoding is supplied.  If the optional
 Unicode normalization form is supplied, the length will be of the string as if
 it had been normalized to that form.
@@ -166,11 +166,11 @@ These do not modify the original value, unlike the built-in C<chop>.
 
 =item graph_chop($string)
 
-Returns the given string with the last grapheme chopped off.
+Returns the given string with the last grapheme cluster chopped off.
 
 =item code_chop($string)
 
-Returns the given string with the last codepoint chopped off.
+Returns the given string with the last code point chopped off.
 
 =back
 
@@ -180,7 +180,8 @@ Returns the given string with the last codepoint chopped off.
 
 =item graph_reverse($string)
 
-Returns the given string value with all graphemes in the opposite order.
+Returns the given string value with all grapheme clusters in the opposite
+order.
 
 =back
 
