@@ -2,7 +2,7 @@ NAME
     Unicode::Util - Unicode-aware versions of built-in Perl functions
 
 VERSION
-    This document describes Unicode::Util version 0.05.
+    This document describes Unicode::Util version 0.06.
 
 SYNOPSIS
         use Unicode::Util qw( graph_length code_length byte_length );
@@ -15,34 +15,26 @@ SYNOPSIS
         say byte_length($grapheme, 'UTF-8');  # 4
 
 DESCRIPTION
-    This module provides additional versions of Perl’s built-in functions,
-    tailored to work on three different units:
-
-    *   graph: Unicode extended grapheme clusters (graphemes)
-
-    *   code: Unicode codepoints
-
-    *   byte: 8-bit bytes (octets)
-
-    This is an early release and this module is likely to have major
-    revisions. Only the "length"-, "chop"-, and "reverse"-functions are
-    currently implemented. See the "TODO" section for planned future
-    additions.
+    This module provides Unicode-aware versions of Perl’s built-in string
+    functions, tailored to work on grapheme clusters as opposed to code
+    points or bytes.
 
 FUNCTIONS
-  length
+    Functions may each be exported explicitly, or by using the ":all" tag
+    for everything or the ":length" tag for the length functions.
+
     graph_length($string)
-        Returns the length in graphemes of the given string. This is likely
-        the number of “characters” that many people would count on a printed
-        string, plus non-printing characters.
+        Returns the length of the given string in grapheme clusters. This is
+        the closest to the number of “characters” that many people would
+        count on a printed string.
 
     code_length($string)
     code_length($string, $normal_form)
-        Returns the length in codepoints of the given string. This is likely
-        the number of “characters” that many programmers and programming
-        languages would count in a string. If the optional Unicode
-        normalization form is supplied, the length will be of the string as
-        if it had been normalized to that form.
+        Returns the length of the given string in code points. This is
+        likely the number of “characters” that many programmers and
+        programming languages would count in a string. If the optional
+        Unicode normalization form is supplied, the length will be of the
+        string as if it had been normalized to that form.
 
         Valid normalization forms are "C" or "NFC", "D" or "NFD", "KC" or
         "NFKC", and "KD" or "NFKD".
@@ -50,34 +42,26 @@ FUNCTIONS
     byte_length($string)
     byte_length($string, $encoding)
     byte_length($string, $encoding, $normal_form)
-        Returns the length in bytes of the given string as if it were
+        Returns the length of the given string in bytes, as if it were
         encoded using the specified encoding or UTF-8 if no encoding is
         supplied. If the optional Unicode normalization form is supplied,
         the length will be of the string as if it had been normalized to
         that form.
 
-  chop
-    These do not modify the original value, unlike the built-in "chop".
-
     graph_chop($string)
-        Returns the given string with the last grapheme chopped off.
+        Returns the given string with the last grapheme cluster chopped off.
+        Does not modify the original value, unlike the built-in "chop".
 
-    code_chop($string)
-        Returns the given string with the last codepoint chopped off.
-
-  reverse
     graph_reverse($string)
-        Returns the given string value with all graphemes in the opposite
-        order.
+        Returns the given string value with all grapheme clusters in the
+        opposite order.
 
 TODO
-    Evaluate the following core Perl functions and operators for the
-    potential addition to this module.
-
-    "substr", "index", "rindex", "eq", "ne", "lt", "gt", "le", "ge", "cmp"
+    "graph_substr", "graph_index", "graph_rindex"
 
 SEE ALSO
-    String::Multibyte, Perl6::Str, <http://perlcabal.org/syn/S32/Str.html>
+    Unicode::GCString, String::Multibyte, Perl6::Str,
+    <http://perlcabal.org/syn/S32/Str.html>
 
 AUTHOR
     Nick Patch <patch@cpan.org>

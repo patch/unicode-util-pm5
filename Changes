@@ -1,11 +1,12 @@
 # Revision history for Perl module Unicode::Util
 ---
-version: 0.05_1
-date:    XXX
+version: 0.06
+date:    2012-04-15
 changes:
   - Deprecated code_chop as it's easy to do using core syntax and this module
     will only implement grapheme cluster functions going forward, except for
     code_length and byte_length
+  - Improved documentation
 ---
 version: 0.05
 date:    2012-03-04
