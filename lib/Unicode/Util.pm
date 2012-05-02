@@ -8,7 +8,7 @@ use parent 'Exporter';
 use Encode qw( encode find_encoding );
 use Unicode::Normalize qw( normalize );
 
-our $VERSION   = '0.06';
+our $VERSION   = '0.06_1';
 our @EXPORT_OK = qw(
     graph_length  code_length  byte_length
     graph_chop    code_chop
@@ -103,7 +103,7 @@ Unicode::Util - Unicode-aware versions of built-in Perl functions
 
 =head1 VERSION
 
-This document describes Unicode::Util version 0.06.
+This document describes Unicode::Util version 0.06_1.
 
 =head1 SYNOPSIS
 
