@@ -13,6 +13,7 @@ our @EXPORT_OK = qw(
     graph_length  code_length  byte_length
     graph_chop    code_chop
     graph_reverse
+    graph_split
 );
 our %EXPORT_TAGS = (
     all    => \@EXPORT_OK,
@@ -81,6 +82,13 @@ sub graph_reverse {
     }
 
     return $reverse;
+}
+
+sub graph_split {
+    my ($str) = @_;
+    utf8::upgrade($str);
+    my @graphs = $str =~ m/(\X)/g;
+    return @graphs;
 }
 
 1;
@@ -159,6 +167,12 @@ modify the original value, unlike the built-in C<chop>.
 
 Returns the given string value with all grapheme clusters in the opposite
 order.
+
+=item graph_split($string)
+
+Splits a string into a list of strings for each grapheme cluster and returns
+that list.  This is simular to C<split(//, $string)>, except that it splits
+between grapheme clusters.
 
 =back
 

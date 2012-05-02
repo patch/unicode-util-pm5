@@ -1,5 +1,10 @@
 # Revision history for Perl module Unicode::Util
 ---
+version: 0.06_1
+date:    XXX
+changes:
+  - Added graph_split
+---
 version: 0.06
 date:    2012-04-15
 changes:
