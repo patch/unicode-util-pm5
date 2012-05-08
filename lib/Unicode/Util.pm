@@ -109,12 +109,26 @@ This document describes Unicode::Util version 0.06_1.
 
     use Unicode::Util qw( graph_length code_length byte_length );
 
-    # grapheme cluster ю́: Cyrillic small letter yu + combining acute accent
-    my $grapheme = "\x{44E}\x{301}";
+    # grapheme cluster ю́ (Cyrillic small letter yu, combining acute accent)
+    my $grapheme = "\x{044E}\x{0301}";
 
-    say graph_length($grapheme);          # 1
-    say code_length($grapheme);           # 2
+    # length in grapheme clusters
+    say graph_length($grapheme);  # 1
+
+    # length in code points
+    say code_length($grapheme);  # 2
+
+    # length in bytes using UTF-8 encoding
     say byte_length($grapheme, 'UTF-8');  # 4
+
+    # Spın̈al Tap (note: Latin small letter n, combining diaeresis)
+    my $band = "Sp\x{0131}n\x{0308}al Tap";
+
+    say scalar reverse $band;  # paT länıpS
+    say graph_reverse($band);  # paT lan̈ıpS
+
+    say join ' ', split //, $band;     # S p ı n ̈ a l   T a p
+    say join ' ', graph_split($band);  # S p ı n̈ a l   T a p
 
 =head1 DESCRIPTION
 
