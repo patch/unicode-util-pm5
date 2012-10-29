@@ -7,6 +7,7 @@ use utf8;
 use parent 'Exporter';
 use Encode qw( encode find_encoding );
 use Unicode::Normalize qw( normalize );
+use Scalar::Util qw( looks_like_number );
 
 our $VERSION   = '0.06_1';
 our @EXPORT_OK = qw(
@@ -14,6 +15,8 @@ our @EXPORT_OK = qw(
     graph_chop    code_chop
     graph_reverse
     graph_split
+    graph_index
+    graph_rindex
 );
 our %EXPORT_TAGS = (
     all    => \@EXPORT_OK,
@@ -89,6 +92,48 @@ sub graph_split {
     utf8::upgrade($str);
     my @graphs = $str =~ m/(\X)/g;
     return @graphs;
+}
+
+sub graph_index {
+    my ($str, $substr, $pos) = @_;
+    utf8::upgrade($str);
+    utf8::upgrade($substr);
+
+    if (!looks_like_number($pos) || $pos < 0) {
+        $pos = 0;
+    }
+    elsif ($pos > (my $graphs = graph_length($str))) {
+        $pos = $graphs;
+    }
+
+    if ($str =~ m{^ ( \X{$pos} \X*? ) \Q$substr\E }xg) {
+        return graph_length($1);
+    }
+    else {
+        return -1;
+    }
+}
+
+sub graph_rindex {
+    my ($str, $substr, $pos) = @_;
+    utf8::upgrade($str);
+    utf8::upgrade($substr);
+
+    if (!looks_like_number($pos) || $pos < 0) {
+        $pos = 0;
+    }
+
+    if ($pos) {
+        # TODO: replace with graph_substr
+        $str = substr $str, 0, $pos + ($substr ? 1 : 0);
+    }
+
+    if ($str =~ m{^ ( \X* ) \Q$substr\E }xg) {
+        return graph_length($1);
+    }
+    else {
+        return -1;
+    }
 }
 
 1;
