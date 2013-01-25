@@ -233,11 +233,23 @@ Splits a string into a list of strings for each grapheme cluster and returns
 that list.  This is simular to C<split(//, $string)>, except that it splits
 between grapheme clusters.
 
+=item graph_index($string, $substring)
+
+=item graph_index($string, $substring, $position)
+
+TODO: docs
+
+=item graph_rindex($string, $substring)
+
+=item graph_rindex($string, $substring, $position)
+
+TODO: docs
+
 =back
 
 =head1 TODO
 
-C<graph_substr>, C<graph_index>, C<graph_rindex>
+C<graph_substr>
 
 =head1 SEE ALSO
 
@@ -250,7 +262,7 @@ Nick Patch <patch@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-© 2011–2012 Nick Patch
+© 2011–2013 Nick Patch
 
 This library is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
