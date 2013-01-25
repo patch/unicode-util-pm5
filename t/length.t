@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use utf8;
 use Test::More tests => 16;
-use Unicode::Util qw( :length );
+use Unicode::Util qw( graph_length code_length byte_length );
 
 my $grapheme = "\x{44E}\x{301}";  # ю́
 

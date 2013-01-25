@@ -34,8 +34,8 @@ DESCRIPTION
     points or bytes.
 
 FUNCTIONS
-    Functions may each be exported explicitly, or by using the ":all" tag
-    for everything or the ":length" tag for the length functions.
+    Functions may each be exported explicitly or by using the ":all" tag for
+    everything.
 
     graph_length($string)
         Returns the length of the given string in grapheme clusters. This is

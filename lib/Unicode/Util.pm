@@ -20,7 +20,7 @@ our @EXPORT_OK = qw(
 );
 our %EXPORT_TAGS = (
     all    => \@EXPORT_OK,
-    length => [qw( graph_length code_length byte_length )],
+    length => [qw( graph_length code_length byte_length )], # deprecated
 );
 
 use constant DEFAULT_ENCODING => 'UTF-8';
@@ -183,8 +183,8 @@ bytes.
 
 =head1 FUNCTIONS
 
-Functions may each be exported explicitly, or by using the C<:all> tag for
-everything or the C<:length> tag for the length functions.
+Functions may each be exported explicitly or by using the C<:all> tag for
+everything.
 
 =over
 
