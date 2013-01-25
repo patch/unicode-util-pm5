@@ -237,13 +237,22 @@ between grapheme clusters.
 
 =item graph_index($string, $substring, $position)
 
-TODO: docs
+Searches for one string within another and returns the position in grapheme
+clusters of the first occurrence of C<$substring> in C<$string> at or after
+the optional grapheme cluster C<$position>.  If the position is omitted,
+starts searching from the beginning of the string.  A position before the
+beginning of the string or after its end is treated as if it were the
+beginning or the end, respectively.  The position and return value are based
+at zero.  If the substring is not found, C<graph_index> returns C<-1>.
 
 =item graph_rindex($string, $substring)
 
 =item graph_rindex($string, $substring, $position)
 
-TODO: docs
+Works just like C<graph_index> except that it returns the position in grapheme
+clusters of the last occurrence of C<$substring> in C<$string>.  If
+C<$position> is specified, returns the last occurrence beginning at or before
+that position in grapheme clusters.
 
 =back
 
