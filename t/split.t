@@ -1,7 +1,8 @@
 use strict;
 use warnings;
 use utf8;
-use Test::More tests => 9;
+use Test::More tests => 10;
+use Test::Warn;
 use Unicode::Util qw( graph_split );
 
 is_deeply(
@@ -52,8 +53,13 @@ is_deeply(
     'graph_split returns empty list for empty string'
 );
 
-is_deeply(
-    [ graph_split(undef) ],
-    [ ],
-    'graph_split returns undef for undef'
+warning_is {
+    is_deeply(
+        [ graph_split(undef) ],
+        [ ],
+        'graph_split returns empty list for undef'
+    );
+} (
+    'Use of uninitialized value in subroutine entry',
+    'graph_split warns for undef'
 );

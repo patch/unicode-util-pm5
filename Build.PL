@@ -12,6 +12,7 @@ my $builder = Module::Build->new(
     },
     build_requires => {
         'Test::More' => 0.41,  # diag()
+        'Test::Warn' => 0.01,
     },
     requires => {
         'perl'   => '5.8.0',  # minimum Unicode support
