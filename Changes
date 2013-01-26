@@ -4,7 +4,8 @@ Revision history for Perl module Unicode::Util
  - Converted this Changes file from YAML to CPAN Changes format as per
    CPAN::Changes::Spec
  - Added graph_index, graph_rindex, graph_split
- - Deprecated :length tag
+ - Deprecated byte_length, code_length, and code_chop
+ - Deprecated byte_:length tag
 
 0.06 2012-04-15
  - Deprecated code_chop as it’s easy to do using core syntax and this module

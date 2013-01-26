@@ -11,12 +11,8 @@ use Scalar::Util qw( looks_like_number );
 
 our $VERSION   = '0.06_1';
 our @EXPORT_OK = qw(
-    graph_length  code_length  byte_length
-    graph_chop    code_chop
-    graph_reverse
-    graph_split
-    graph_index
-    graph_rindex
+    graph_length graph_chop graph_reverse graph_split graph_index graph_rindex
+    byte_length code_length code_chop
 );
 our %EXPORT_TAGS = (
     all    => \@EXPORT_OK,
@@ -32,6 +28,9 @@ sub graph_length {
     return scalar( () = $str =~ m/\X/g );
 }
 
+# code_length and byte_length are deprecated: they’re easy to do using core
+# syntax and this module #will only implement grapheme cluster functions going
+# forward
 sub code_length {
     my ($str, $nf) = @_;
     utf8::upgrade($str);
@@ -65,9 +64,8 @@ sub graph_chop {
     return $str;
 }
 
-# code_chop is deprecated: it's easy to do using core syntax and this module
-# will only implement grapheme cluster functions going forward, except for
-# code_length and byte_length
+# code_chop is deprecated: it’s easy to do using core syntax and this module
+# will only implement grapheme cluster functions going forward
 sub code_chop {
     my ($str) = @_;
     utf8::upgrade($str);
@@ -144,7 +142,7 @@ __END__
 
 =head1 NAME
 
-Unicode::Util - Unicode-aware versions of built-in Perl functions
+Unicode::Util - Unicode grapheme-level versions of built-in Perl functions
 
 =head1 VERSION
 
@@ -152,21 +150,15 @@ This document describes Unicode::Util version 0.06_1.
 
 =head1 SYNOPSIS
 
-    use Unicode::Util qw( graph_length code_length byte_length );
+    use Unicode::Util qw( graph_length graph_reverse graph_split );
 
     # grapheme cluster ю́ (Cyrillic small letter yu, combining acute accent)
     my $grapheme = "\x{044E}\x{0301}";
 
-    # length in grapheme clusters
-    say graph_length($grapheme);  # 1
+    say length($grapheme);        # 2 (length in code points)
+    say graph_length($grapheme);  # 1 (length in grapheme clusters)
 
-    # length in code points
-    say code_length($grapheme);  # 2
-
-    # length in bytes using UTF-8 encoding
-    say byte_length($grapheme, 'UTF-8');  # 4
-
-    # Spın̈al Tap (note: Latin small letter n, combining diaeresis)
+    # Spın̈al Tap; n̈ = Latin small letter n, combining diaeresis
     my $band = "Sp\x{0131}n\x{0308}al Tap";
 
     say scalar reverse $band;  # paT länıpS
@@ -177,9 +169,9 @@ This document describes Unicode::Util version 0.06_1.
 
 =head1 DESCRIPTION
 
-This module provides Unicode-aware versions of Perl’s built-in string
-functions, tailored to work on grapheme clusters as opposed to code points or
-bytes.
+This module provides Unicode grapheme cluster–level versions of Perl’s
+built-in string functions, tailored to work on grapheme clusters as opposed to
+code points or bytes.
 
 =head1 FUNCTIONS
 
@@ -193,29 +185,6 @@ everything.
 Returns the length of the given string in grapheme clusters.  This is the
 closest to the number of “characters” that many people would count on a
 printed string.
-
-=item code_length($string)
-
-=item code_length($string, $normal_form)
-
-Returns the length of the given string in code points.  This is likely the
-number of “characters” that many programmers and programming languages would
-count in a string.  If the optional Unicode normalization form is supplied,
-the length will be of the string as if it had been normalized to that form.
-
-Valid normalization forms are C<C> or C<NFC>, C<D> or C<NFD>, C<KC> or
-C<NFKC>, and C<KD> or C<NFKD>.
-
-=item byte_length($string)
-
-=item byte_length($string, $encoding)
-
-=item byte_length($string, $encoding, $normal_form)
-
-Returns the length of the given string in bytes, as if it were encoded using
-the specified encoding or UTF-8 if no encoding is supplied.  If the optional
-Unicode normalization form is supplied, the length will be of the string as if
-it had been normalized to that form.
 
 =item graph_chop($string)
 
@@ -275,5 +244,3 @@ Nick Patch <patch@cpan.org>
 
 This library is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
-
-=cut
