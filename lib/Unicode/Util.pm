@@ -238,7 +238,7 @@ that position in grapheme clusters.
 
 =head1 TODO
 
-C<grapheme_substr>
+C<grapheme_substr>, C<canonical_eq>, C<compatibility_eq>
 
 =head1 SEE ALSO
 
