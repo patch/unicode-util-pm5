@@ -4,6 +4,8 @@ use utf8;
 use Test::More tests => 16;
 use Unicode::Util qw( grapheme_length code_length byte_length );
 
+# Unicode::Util tests for grapheme_length
+
 my $grapheme = "\x{44E}\x{301}";  # ю́
 
 is grapheme_length($grapheme), 1, 'graphemes in grapheme cluster';

@@ -3,10 +3,11 @@ use warnings;
 use Module::Build;
 
 my $builder = Module::Build->new(
-    module_name    => 'Unicode::Util',
-    license        => 'perl',
-    create_license => 1,
-    create_readme  => 1,
+    module_name          => 'Unicode::Util',
+    license              => 'perl',
+    create_license       => 1,
+    create_readme        => 1,
+    recursive_test_files => 1,
     configure_requires => {
         'Module::Build' => 0.36,
     },
