@@ -9,9 +9,15 @@ use Encode qw( encode find_encoding );
 use Unicode::Normalize qw( normalize );
 use Scalar::Util qw( looks_like_number );
 
-our $VERSION   = '0.06_1';
+our $VERSION = '0.06_1';
 our @EXPORT_OK = qw(
-    graph_length graph_chop graph_reverse graph_split graph_index graph_rindex
+    grapheme_length
+    grapheme_chop
+    grapheme_reverse
+    grapheme_split
+    grapheme_index
+    grapheme_rindex
+    graph_length graph_chop graph_reverse
     byte_length code_length code_chop
 );
 our %EXPORT_TAGS = (
@@ -22,7 +28,12 @@ our %EXPORT_TAGS = (
 use constant DEFAULT_ENCODING => 'UTF-8';
 use constant IS_NORMAL_FORM   => qr{^ (?:NF)? K? [CD] $}xi;
 
-sub graph_length {
+# deprecated aliases
+*graph_length  = \&grapheme_length;
+*graph_chop    = \&grapheme_chop;
+*graph_reverse = \&grapheme_reverse;
+
+sub grapheme_length {
     my ($str) = @_;
     utf8::upgrade($str);
     return scalar( () = $str =~ m/\X/g );
@@ -57,7 +68,7 @@ sub byte_length {
     return length encode($enc, $str);
 }
 
-sub graph_chop {
+sub grapheme_chop {
     my ($str) = @_;
     utf8::upgrade($str);
     $str =~ s/(\X)\z//;
@@ -73,7 +84,7 @@ sub code_chop {
     return $str;
 }
 
-sub graph_reverse {
+sub grapheme_reverse {
     my ($str) = @_;
     utf8::upgrade($str);
     my $reverse = '';
@@ -85,14 +96,14 @@ sub graph_reverse {
     return $reverse;
 }
 
-sub graph_split {
+sub grapheme_split {
     my ($str) = @_;
     utf8::upgrade($str);
     my @graphs = $str =~ m/(\X)/g;
     return @graphs;
 }
 
-sub graph_index {
+sub grapheme_index {
     my ($str, $substr, $pos) = @_;
     utf8::upgrade($str);
     utf8::upgrade($substr);
@@ -100,19 +111,19 @@ sub graph_index {
     if (!looks_like_number($pos) || $pos < 0) {
         $pos = 0;
     }
-    elsif ($pos > (my $graphs = graph_length($str))) {
+    elsif ($pos > (my $graphs = grapheme_length($str))) {
         $pos = $graphs;
     }
 
     if ($str =~ m{^ ( \X{$pos} \X*? ) \Q$substr\E }xg) {
-        return graph_length($1);
+        return grapheme_length($1);
     }
     else {
         return -1;
     }
 }
 
-sub graph_rindex {
+sub grapheme_rindex {
     my ($str, $substr, $pos) = @_;
     utf8::upgrade($str);
     utf8::upgrade($substr);
@@ -122,12 +133,12 @@ sub graph_rindex {
     }
 
     if ($pos) {
-        # TODO: replace with graph_substr
+        # TODO: replace with grapheme_substr
         $str = substr $str, 0, $pos + ($substr ? 1 : 0);
     }
 
     if ($str =~ m{^ ( \X* ) \Q$substr\E }xg) {
-        return graph_length($1);
+        return grapheme_length($1);
     }
     else {
         return -1;
@@ -150,22 +161,22 @@ This document describes Unicode::Util version 0.06_1.
 
 =head1 SYNOPSIS
 
-    use Unicode::Util qw( graph_length graph_reverse graph_split );
+    use Unicode::Util qw( grapheme_length grapheme_reverse grapheme_split );
 
     # grapheme cluster ю́ (Cyrillic small letter yu, combining acute accent)
     my $grapheme = "\x{044E}\x{0301}";
 
-    say length($grapheme);        # 2 (length in code points)
-    say graph_length($grapheme);  # 1 (length in grapheme clusters)
+    say length($grapheme);           # 2 (length in code points)
+    say grapheme_length($grapheme);  # 1 (length in grapheme clusters)
 
     # Spın̈al Tap; n̈ = Latin small letter n, combining diaeresis
     my $band = "Sp\x{0131}n\x{0308}al Tap";
 
-    say scalar reverse $band;  # paT länıpS
-    say graph_reverse($band);  # paT lan̈ıpS
+    say scalar reverse $band;     # paT länıpS
+    say grapheme_reverse($band);  # paT lan̈ıpS
 
-    say join ' ', split //, $band;     # S p ı n ̈ a l   T a p
-    say join ' ', graph_split($band);  # S p ı n̈ a l   T a p
+    say join ' ', split //, $band;        # S p ı n ̈ a l   T a p
+    say join ' ', grapheme_split($band);  # S p ı n̈ a l   T a p
 
 =head1 DESCRIPTION
 
@@ -180,31 +191,31 @@ everything.
 
 =over
 
-=item graph_length($string)
+=item grapheme_length($string)
 
 Returns the length of the given string in grapheme clusters.  This is the
 closest to the number of “characters” that many people would count on a
 printed string.
 
-=item graph_chop($string)
+=item grapheme_chop($string)
 
 Returns the given string with the last grapheme cluster chopped off.  Does not
 modify the original value, unlike the built-in C<chop>.
 
-=item graph_reverse($string)
+=item grapheme_reverse($string)
 
 Returns the given string value with all grapheme clusters in the opposite
 order.
 
-=item graph_split($string)
+=item grapheme_split($string)
 
 Splits a string into a list of strings for each grapheme cluster and returns
 that list.  This is simular to C<split(//, $string)>, except that it splits
 between grapheme clusters.
 
-=item graph_index($string, $substring)
+=item grapheme_index($string, $substring)
 
-=item graph_index($string, $substring, $position)
+=item grapheme_index($string, $substring, $position)
 
 Searches for one string within another and returns the position in grapheme
 clusters of the first occurrence of C<$substring> in C<$string> at or after
@@ -212,14 +223,14 @@ the optional grapheme cluster C<$position>.  If the position is omitted,
 starts searching from the beginning of the string.  A position before the
 beginning of the string or after its end is treated as if it were the
 beginning or the end, respectively.  The position and return value are based
-at zero.  If the substring is not found, C<graph_index> returns C<-1>.
+at zero.  If the substring is not found, C<grapheme_index> returns C<-1>.
 
-=item graph_rindex($string, $substring)
+=item grapheme_rindex($string, $substring)
 
-=item graph_rindex($string, $substring, $position)
+=item grapheme_rindex($string, $substring, $position)
 
-Works just like C<graph_index> except that it returns the position in grapheme
-clusters of the last occurrence of C<$substring> in C<$string>.  If
+Works just like C<grapheme_index> except that it returns the position in
+grapheme clusters of the last occurrence of C<$substring> in C<$string>.  If
 C<$position> is specified, returns the last occurrence beginning at or before
 that position in grapheme clusters.
 
@@ -227,7 +238,7 @@ that position in grapheme clusters.
 
 =head1 TODO
 
-C<graph_substr>
+C<grapheme_substr>
 
 =head1 SEE ALSO
 
