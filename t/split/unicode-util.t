@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use utf8;
+use open qw( :encoding(UTF-8) :std );
 use Test::More tests => 10;
 use Test::Warn;
 use Unicode::Util qw( grapheme_split );
