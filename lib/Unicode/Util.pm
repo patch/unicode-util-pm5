@@ -210,7 +210,7 @@ order.
 =item grapheme_split($string)
 
 Splits a string into a list of strings for each grapheme cluster and returns
-that list.  This is simular to C<split(//, $string)>, except that it splits
+that list.  This is similar to C<split(//, $string)>, except that it splits
 between grapheme clusters.
 
 =item grapheme_index($string, $substring)

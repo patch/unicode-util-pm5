@@ -47,7 +47,7 @@ FUNCTIONS
 
     grapheme_split($string)
         Splits a string into a list of strings for each grapheme cluster and
-        returns that list. This is simular to "split(//, $string)", except
+        returns that list. This is similar to "split(//, $string)", except
         that it splits between grapheme clusters.
 
     grapheme_index($string, $substring)
