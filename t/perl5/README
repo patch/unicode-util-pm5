@@ -1,0 +1,4 @@
+This directory contains relevant tests from the official Perl 5 test suite,
+modified as needed to match the desired functionality of Unicode::Util.
+
+git://perl5.git.perl.org/perl.git

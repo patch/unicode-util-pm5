@@ -1,0 +1,4 @@
+This directory contains relevant tests from the Perl 5 module Perl6::Str,
+modified as needed to match the desired functionality of Unicode::Util.
+
+git://github.com/moritz/Perl6-Str.git

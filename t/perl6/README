@@ -1,0 +1,4 @@
+This directory contains relevant tests from the official Perl 6 test suite,
+modified as needed to match the desired functionality of Unicode::Util.
+
+git://github.com/perl6/roast.git
