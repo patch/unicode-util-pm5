@@ -3,7 +3,7 @@ NAME
     functions
 
 VERSION
-    This document describes Unicode::Util version 0.06_1.
+    This document describes Unicode::Util version 0.07_1.
 
 SYNOPSIS
         use Unicode::Util qw( grapheme_length grapheme_reverse grapheme_split );
@@ -69,7 +69,7 @@ FUNCTIONS
         beginning at or before that position in grapheme clusters.
 
 TODO
-    "grapheme_substr"
+    "grapheme_substr", "canonical_eq", "compatibility_eq"
 
 SEE ALSO
     Unicode::GCString, String::Multibyte, Perl6::Str,

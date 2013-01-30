@@ -9,7 +9,7 @@ use Encode qw( encode find_encoding );
 use Unicode::Normalize qw( normalize );
 use Scalar::Util qw( looks_like_number );
 
-our $VERSION = '0.06_1';
+our $VERSION = '0.07_1';
 our @EXPORT_OK = qw(
     grapheme_length
     grapheme_chop
@@ -40,7 +40,7 @@ sub grapheme_length {
 }
 
 # code_length and byte_length are deprecated: they’re easy to do using core
-# syntax and this module #will only implement grapheme cluster functions going
+# syntax and this module will only implement grapheme cluster functions going
 # forward
 sub code_length {
     my ($str, $nf) = @_;
@@ -157,7 +157,7 @@ Unicode::Util - Unicode grapheme-level versions of built-in Perl functions
 
 =head1 VERSION
 
-This document describes Unicode::Util version 0.06_1.
+This document describes Unicode::Util version 0.07_1.
 
 =head1 SYNOPSIS
 
