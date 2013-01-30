@@ -3,10 +3,10 @@ NAME
     functions
 
 VERSION
-    This document describes Unicode::Util version 0.06_1.
+    This document describes Unicode::Util version 0.07.
 
 SYNOPSIS
-        use Unicode::Util qw( grapheme_length grapheme_reverse grapheme_split );
+        use Unicode::Util qw( grapheme_length grapheme_reverse );
 
         # grapheme cluster ю́ (Cyrillic small letter yu, combining acute accent)
         my $grapheme = "\x{044E}\x{0301}";
@@ -20,13 +20,13 @@ SYNOPSIS
         say scalar reverse $band;     # paT länıpS
         say grapheme_reverse($band);  # paT lan̈ıpS
 
-        say join ' ', split //, $band;        # S p ı n ̈ a l   T a p
-        say join ' ', grapheme_split($band);  # S p ı n̈ a l   T a p
-
 DESCRIPTION
     This module provides Unicode grapheme cluster–level versions of Perl’s
     built-in string functions, tailored to work on grapheme clusters as
     opposed to code points or bytes.
+
+    This is an early release and major revisions are planned for the near
+    future.
 
 FUNCTIONS
     Functions may each be exported explicitly or by using the ":all" tag for
@@ -45,31 +45,9 @@ FUNCTIONS
         Returns the given string value with all grapheme clusters in the
         opposite order.
 
-    grapheme_split($string)
-        Splits a string into a list of strings for each grapheme cluster and
-        returns that list. This is similar to "split(//, $string)", except
-        that it splits between grapheme clusters.
-
-    grapheme_index($string, $substring)
-    grapheme_index($string, $substring, $position)
-        Searches for one string within another and returns the position in
-        grapheme clusters of the first occurrence of $substring in $string
-        at or after the optional grapheme cluster $position. If the position
-        is omitted, starts searching from the beginning of the string. A
-        position before the beginning of the string or after its end is
-        treated as if it were the beginning or the end, respectively. The
-        position and return value are based at zero. If the substring is not
-        found, "grapheme_index" returns -1.
-
-    grapheme_rindex($string, $substring)
-    grapheme_rindex($string, $substring, $position)
-        Works just like "grapheme_index" except that it returns the position
-        in grapheme clusters of the last occurrence of $substring in
-        $string. If $position is specified, returns the last occurrence
-        beginning at or before that position in grapheme clusters.
-
 TODO
-    "grapheme_substr"
+    "grapheme_substr", "graphem_index", "grapheme_rindex", "canonical_eq",
+    "compatibility_eq"
 
 SEE ALSO
     Unicode::GCString, String::Multibyte, Perl6::Str,

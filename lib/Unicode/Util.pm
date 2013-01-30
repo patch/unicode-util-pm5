@@ -9,7 +9,7 @@ use Encode qw( encode find_encoding );
 use Unicode::Normalize qw( normalize );
 use Scalar::Util qw( looks_like_number );
 
-our $VERSION = '0.06_1';
+our $VERSION = '0.07';
 our @EXPORT_OK = qw(
     grapheme_length
     grapheme_chop
@@ -40,7 +40,7 @@ sub grapheme_length {
 }
 
 # code_length and byte_length are deprecated: they’re easy to do using core
-# syntax and this module #will only implement grapheme cluster functions going
+# syntax and this module will only implement grapheme cluster functions going
 # forward
 sub code_length {
     my ($str, $nf) = @_;
@@ -96,6 +96,7 @@ sub grapheme_reverse {
     return $reverse;
 }
 
+# grapheme_split is experimental and subject to change
 sub grapheme_split {
     my ($str) = @_;
     utf8::upgrade($str);
@@ -103,6 +104,7 @@ sub grapheme_split {
     return @graphs;
 }
 
+# grapheme_index is experimental and subject to change
 sub grapheme_index {
     my ($str, $substr, $pos) = @_;
     utf8::upgrade($str);
@@ -123,6 +125,7 @@ sub grapheme_index {
     }
 }
 
+# grapheme_rindex is experimental and subject to change
 sub grapheme_rindex {
     my ($str, $substr, $pos) = @_;
     utf8::upgrade($str);
@@ -157,11 +160,11 @@ Unicode::Util - Unicode grapheme-level versions of built-in Perl functions
 
 =head1 VERSION
 
-This document describes Unicode::Util version 0.06_1.
+This document describes Unicode::Util version 0.07.
 
 =head1 SYNOPSIS
 
-    use Unicode::Util qw( grapheme_length grapheme_reverse grapheme_split );
+    use Unicode::Util qw( grapheme_length grapheme_reverse );
 
     # grapheme cluster ю́ (Cyrillic small letter yu, combining acute accent)
     my $grapheme = "\x{044E}\x{0301}";
@@ -175,14 +178,13 @@ This document describes Unicode::Util version 0.06_1.
     say scalar reverse $band;     # paT länıpS
     say grapheme_reverse($band);  # paT lan̈ıpS
 
-    say join ' ', split //, $band;        # S p ı n ̈ a l   T a p
-    say join ' ', grapheme_split($band);  # S p ı n̈ a l   T a p
-
 =head1 DESCRIPTION
 
 This module provides Unicode grapheme cluster–level versions of Perl’s
 built-in string functions, tailored to work on grapheme clusters as opposed to
 code points or bytes.
+
+This is an early release and major revisions are planned for the near future.
 
 =head1 FUNCTIONS
 
@@ -207,38 +209,12 @@ modify the original value, unlike the built-in C<chop>.
 Returns the given string value with all grapheme clusters in the opposite
 order.
 
-=item grapheme_split($string)
-
-Splits a string into a list of strings for each grapheme cluster and returns
-that list.  This is similar to C<split(//, $string)>, except that it splits
-between grapheme clusters.
-
-=item grapheme_index($string, $substring)
-
-=item grapheme_index($string, $substring, $position)
-
-Searches for one string within another and returns the position in grapheme
-clusters of the first occurrence of C<$substring> in C<$string> at or after
-the optional grapheme cluster C<$position>.  If the position is omitted,
-starts searching from the beginning of the string.  A position before the
-beginning of the string or after its end is treated as if it were the
-beginning or the end, respectively.  The position and return value are based
-at zero.  If the substring is not found, C<grapheme_index> returns C<-1>.
-
-=item grapheme_rindex($string, $substring)
-
-=item grapheme_rindex($string, $substring, $position)
-
-Works just like C<grapheme_index> except that it returns the position in
-grapheme clusters of the last occurrence of C<$substring> in C<$string>.  If
-C<$position> is specified, returns the last occurrence beginning at or before
-that position in grapheme clusters.
-
 =back
 
 =head1 TODO
 
-C<grapheme_substr>, C<canonical_eq>, C<compatibility_eq>
+C<grapheme_substr>, C<graphem_index>, C<grapheme_rindex>, C<canonical_eq>,
+C<compatibility_eq>
 
 =head1 SEE ALSO
 

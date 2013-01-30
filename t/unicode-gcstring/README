@@ -1,5 +1,0 @@
-This directory contains relevant tests from the Perl 5 module
-Unicode::GCString bundled in the package Unicode::LineBreak, modified as
-needed to match the desired functionality of Unicode::Util.
-
-https://metacpan.org/module/Unicode::GCString
