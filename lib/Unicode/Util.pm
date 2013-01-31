@@ -36,7 +36,7 @@ use constant IS_NORMAL_FORM   => qr{^ (?:NF)? K? [CD] $}xi;
 sub grapheme_length {
     my ($str) = @_;
     utf8::upgrade($str);
-    return scalar( () = $str =~ m/\X/g );
+    return scalar( () = $str =~ m{ \X }xg );
 }
 
 # code_length and byte_length are deprecated: they’re easy to do using core
@@ -71,7 +71,7 @@ sub byte_length {
 sub grapheme_chop {
     my ($str) = @_;
     utf8::upgrade($str);
-    $str =~ s/(\X)\z//;
+    $str =~ s{ \X \z }{}x;
     return $str;
 }
 
@@ -87,19 +87,13 @@ sub code_chop {
 sub grapheme_reverse {
     my ($str) = @_;
     utf8::upgrade($str);
-    my $reverse = '';
-
-    while ( $str =~ s/(\X)\z// ) {
-        $reverse .= $1;
-    }
-
-    return $reverse;
+    return join '', reverse $str =~ m{ \X }xg;
 }
 
 sub grapheme_split {
     my ($str) = @_;
     utf8::upgrade($str);
-    my @graphs = $str =~ m/(\X)/g;
+    my @graphs = $str =~ m{ \X }xg;
     return @graphs;
 }
 
@@ -115,7 +109,7 @@ sub grapheme_index {
         $pos = $graphs;
     }
 
-    if ($str =~ m{^ ( \X{$pos} \X*? ) \Q$substr\E }xg) {
+    if ($str =~ m{ ^ ( \X{$pos} \X*? ) \Q$substr\E }xg) {
         return grapheme_length($1);
     }
     else {
@@ -137,7 +131,7 @@ sub grapheme_rindex {
         $str = substr $str, 0, $pos + ($substr ? 1 : 0);
     }
 
-    if ($str =~ m{^ ( \X* ) \Q$substr\E }xg) {
+    if ($str =~ m{ ^ ( \X* ) \Q$substr\E }xg) {
         return grapheme_length($1);
     }
     else {
