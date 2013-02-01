@@ -19,6 +19,9 @@ my $builder = Module::Build->new(
         'perl'   => '5.8.0',  # minimum Unicode support
         'parent' => 0,
     },
+    recommends => {
+        'perl'   => '5.12.0',  # ideal Unicode support
+    },
     meta_merge => {
         resources => {
             repository => 'git://github.com/patch/unicode-util-pm5.git',
