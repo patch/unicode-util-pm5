@@ -28,20 +28,20 @@ our %EXPORT_TAGS = (
 use constant DEFAULT_ENCODING => 'UTF-8';
 use constant IS_NORMAL_FORM   => qr{^ (?:NF)? K? [CD] $}xi;
 
-sub grapheme_length {
+sub grapheme_length (;$) {
     my ($str) = @_;
     utf8::upgrade($str);
     return scalar( () = $str =~ m{ \X }xg );
 }
 
-sub grapheme_chop {
+sub grapheme_chop (;\[$@%]) {
     my ($str) = @_;
     utf8::upgrade($str);
     $str =~ s{ \X \z }{}x;
     return $str;
 }
 
-sub grapheme_reverse {
+sub grapheme_reverse (;@) {
     my ($str) = @_;
     utf8::upgrade($str);
     return join '', reverse $str =~ m{ \X }xg;
@@ -49,7 +49,7 @@ sub grapheme_reverse {
 
 # experimental functions
 
-sub grapheme_index {
+sub grapheme_index ($$;$) {
     my ($str, $substr, $pos) = @_;
     utf8::upgrade($str);
     utf8::upgrade($substr);
@@ -69,7 +69,7 @@ sub grapheme_index {
     }
 }
 
-sub grapheme_rindex {
+sub grapheme_rindex ($$;$) {
     my ($str, $substr, $pos) = @_;
     utf8::upgrade($str);
     utf8::upgrade($substr);
@@ -91,7 +91,13 @@ sub grapheme_rindex {
     }
 }
 
-sub grapheme_split {
+sub grapheme_substr ($$;$$) :lvalue {
+    my ($str, $offset, $length, $replacement) = @_;
+    utf8::upgrade($str);
+    return;
+}
+
+sub grapheme_split (;$$) {
     my ($str) = @_;
     utf8::upgrade($str);
     my @graphs = $str =~ m{ \X }xg;
