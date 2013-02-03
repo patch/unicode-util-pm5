@@ -3,19 +3,19 @@ use warnings;
 use utf8;
 use open qw( :encoding(UTF-8) :std );
 use Test::More tests => 16;
-use Unicode::Util qw( grapheme_length code_length byte_length );
+use Unicode::Util qw( graph_length code_length byte_length );
 
-# Unicode::Util tests for grapheme_length
+# Unicode::Util tests for graph_length, code_length, and byte_length
 
 my $grapheme = "\x{44E}\x{301}";  # ю́
 
-is grapheme_length($grapheme), 1, 'graphemes in grapheme cluster';
+is graph_length($grapheme), 1, 'graphemes in grapheme cluster';
 is code_length($grapheme),  2, 'codepoints in grapheme cluster';
 is byte_length($grapheme),  4, 'bytes in grapheme cluster';
 
 my $ascii = 'abc';
 
-is grapheme_length($ascii), 3, 'graphemes in ASCII string';
+is graph_length($ascii), 3, 'graphemes in ASCII string';
 is code_length($ascii),  3, 'codepoints in ASCII string';
 is byte_length($ascii),  3, 'bytes in ASCII string';
 
