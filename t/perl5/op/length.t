@@ -1,10 +1,8 @@
 #!./perl
 
-BEGIN {
-    chdir 't' if -d 't';
-    require './test.pl';
-    @INC = '../lib';
-}
+use Unicode::Util qw( grapheme_length );
+
+*length = \&grapheme_length;
 
 plan (tests => 41);
 

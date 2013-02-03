@@ -14,9 +14,9 @@ our @EXPORT_OK = qw(
     grapheme_length
     grapheme_chop
     grapheme_reverse
-    grapheme_split
     grapheme_index
     grapheme_rindex
+    grapheme_split
     graph_length graph_chop graph_reverse
     byte_length code_length code_chop
 );
@@ -28,44 +28,10 @@ our %EXPORT_TAGS = (
 use constant DEFAULT_ENCODING => 'UTF-8';
 use constant IS_NORMAL_FORM   => qr{^ (?:NF)? K? [CD] $}xi;
 
-# deprecated aliases
-*graph_length  = \&grapheme_length;
-*graph_chop    = \&grapheme_chop;
-*graph_reverse = \&grapheme_reverse;
-
 sub grapheme_length {
     my ($str) = @_;
     utf8::upgrade($str);
     return scalar( () = $str =~ m{ \X }xg );
-}
-
-# code_length and byte_length are deprecated: they’re easy to do using core
-# syntax and this module will only implement grapheme cluster functions going
-# forward
-sub code_length {
-    my ($str, $nf) = @_;
-    utf8::upgrade($str);
-
-    if ($nf && $nf =~ IS_NORMAL_FORM) {
-        $str = normalize(uc $nf, $str);
-    }
-
-    return length $str;
-}
-
-sub byte_length {
-    my ($str, $enc, $nf) = @_;
-    utf8::upgrade($str);
-
-    if ( !$enc || !find_encoding($enc) ) {
-        $enc = DEFAULT_ENCODING;
-    }
-
-    if ($nf && $nf =~ IS_NORMAL_FORM) {
-        $str = normalize(uc $nf, $str);
-    }
-
-    return length encode($enc, $str);
 }
 
 sub grapheme_chop {
@@ -75,27 +41,13 @@ sub grapheme_chop {
     return $str;
 }
 
-# code_chop is deprecated: it’s easy to do using core syntax and this module
-# will only implement grapheme cluster functions going forward
-sub code_chop {
-    my ($str) = @_;
-    utf8::upgrade($str);
-    chop $str;
-    return $str;
-}
-
 sub grapheme_reverse {
     my ($str) = @_;
     utf8::upgrade($str);
     return join '', reverse $str =~ m{ \X }xg;
 }
 
-sub grapheme_split {
-    my ($str) = @_;
-    utf8::upgrade($str);
-    my @graphs = $str =~ m{ \X }xg;
-    return @graphs;
-}
+# experimental functions
 
 sub grapheme_index {
     my ($str, $substr, $pos) = @_;
@@ -137,6 +89,67 @@ sub grapheme_rindex {
     else {
         return -1;
     }
+}
+
+sub grapheme_split {
+    my ($str) = @_;
+    utf8::upgrade($str);
+    my @graphs = $str =~ m{ \X }xg;
+    return @graphs;
+}
+
+# deprecated functions
+
+sub graph_length {
+    my ($str) = @_;
+    utf8::upgrade($str);
+    return scalar( () = $str =~ m{ \X }xg );
+}
+
+sub code_length {
+    my ($str, $nf) = @_;
+    utf8::upgrade($str);
+
+    if ($nf && $nf =~ IS_NORMAL_FORM) {
+        $str = normalize(uc $nf, $str);
+    }
+
+    return length $str;
+}
+
+sub byte_length {
+    my ($str, $enc, $nf) = @_;
+    utf8::upgrade($str);
+
+    if ( !$enc || !find_encoding($enc) ) {
+        $enc = DEFAULT_ENCODING;
+    }
+
+    if ($nf && $nf =~ IS_NORMAL_FORM) {
+        $str = normalize(uc $nf, $str);
+    }
+
+    return length encode($enc, $str);
+}
+
+sub graph_chop {
+    my ($str) = @_;
+    utf8::upgrade($str);
+    $str =~ s{ \X \z }{}x;
+    return $str;
+}
+
+sub code_chop {
+    my ($str) = @_;
+    utf8::upgrade($str);
+    chop $str;
+    return $str;
+}
+
+sub graph_reverse {
+    my ($str) = @_;
+    utf8::upgrade($str);
+    return join '', reverse $str =~ m{ \X }xg;
 }
 
 1;
