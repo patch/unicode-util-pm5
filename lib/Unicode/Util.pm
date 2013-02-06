@@ -30,6 +30,7 @@ use constant IS_NORMAL_FORM   => qr{^ (?:NF)? K? [CD] $}xi;
 
 sub grapheme_length (;$) {
     my ($str) = @_;
+    $str = $_ unless defined $str;
     utf8::upgrade($str);
     return scalar( () = $str =~ m{ \X }xg );
 }
