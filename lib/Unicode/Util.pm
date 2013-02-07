@@ -32,7 +32,6 @@ sub grapheme_length (;$) {
     my ($str) = @_;
     $str = $_ unless defined $str;
     return undef unless defined $str;
-    utf8::upgrade($str);
     return scalar( () = $str =~ m{ \X }xg );
 }
 
@@ -41,7 +40,6 @@ sub grapheme_chop (;\[$@%]) {
     $ref = \$_ unless defined $ref;
 
     if (ref $ref eq 'SCALAR') {
-        utf8::upgrade($$ref);
         $$ref =~ s{ ( \X ) \z }{}x;
         return $1;
     }
@@ -49,8 +47,6 @@ sub grapheme_chop (;\[$@%]) {
         return undef unless @$ref;
 
         for my $i ( 0 .. $#{$ref} ) {
-            utf8::upgrade( $ref->[$i] );
-
             if ( $i < $#{$ref} ) {
                 $ref->[$i] =~ s{ \X \z }{}x;
             }
@@ -66,8 +62,6 @@ sub grapheme_chop (;\[$@%]) {
 
         my $count = 0;
         for my $str (values %$ref) {
-            utf8::upgrade($str);
-
             if (++$count < $elems) {
                 $str =~ s{ \X \z }{}x;
             }
@@ -89,8 +83,6 @@ sub grapheme_reverse (;@) {
 
 sub grapheme_index ($$;$) {
     my ($str, $substr, $pos) = @_;
-    utf8::upgrade($str);
-    utf8::upgrade($substr);
 
     if (!looks_like_number($pos) || $pos < 0) {
         $pos = 0;
@@ -109,8 +101,6 @@ sub grapheme_index ($$;$) {
 
 sub grapheme_rindex ($$;$) {
     my ($str, $substr, $pos) = @_;
-    utf8::upgrade($str);
-    utf8::upgrade($substr);
 
     if (!looks_like_number($pos) || $pos < 0) {
         $pos = 0;
@@ -131,13 +121,11 @@ sub grapheme_rindex ($$;$) {
 
 sub grapheme_substr ($$;$$) :lvalue {
     my ($str, $offset, $length, $replacement) = @_;
-    utf8::upgrade($str);
     return;
 }
 
 sub grapheme_split (;$$) {
     my ($str) = @_;
-    utf8::upgrade($str);
     my @graphs = $str =~ m{ \X }xg;
     return @graphs;
 }
