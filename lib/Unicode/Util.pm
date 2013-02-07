@@ -36,11 +36,29 @@ sub grapheme_length (;$) {
 }
 
 sub grapheme_chop (;\[$@%]) {
-    my ($str) = @_;
-    $str = \$_ unless defined $$str;
-    utf8::upgrade($$str);
-    $$str =~ s{ ( \X ) \z }{}x;
-    return $1;
+    my ($ref) = @_;
+    $ref = \$_ unless defined $ref;
+
+    if (ref $ref eq 'SCALAR') {
+        utf8::upgrade($$ref);
+        $$ref =~ s{ ( \X ) \z }{}x;
+        return $1;
+    }
+    elsif (ref $ref eq 'ARRAY') {
+        return undef unless @$ref;
+
+        for my $i ( 0 .. $#{$ref} ) {
+            utf8::upgrade( $ref->[$i] );
+
+            if ( $i < $#{$ref} ) {
+                $ref->[$i] =~ s{ \X \z }{}x;
+            }
+            else {
+                $ref->[$i] =~ s{ ( \X ) \z }{}x;
+                return $1;
+            }
+        }
+    }
 }
 
 sub grapheme_reverse (;@) {
