@@ -9,5 +9,5 @@ use Unicode::Util qw( grapheme_chop );
 
 my $grapheme = "x\x{44E}\x{301}";  # xю́
 
-is grapheme_chop($grapheme), "x\x{44E}\x{301}", 'grapheme_chop returns the last grapheme';
+is grapheme_chop($grapheme), "\x{44E}\x{301}", 'grapheme_chop returns the last grapheme';
 is $grapheme, 'x', 'grapheme_chop removes the last grapheme';

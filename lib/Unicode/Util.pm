@@ -37,9 +37,9 @@ sub grapheme_length (;$) {
 
 sub grapheme_chop (;\[$@%]) {
     my ($str) = @_;
-    utf8::upgrade($str);
-    $str =~ s{ \X \z }{}x;
-    return $str;
+    utf8::upgrade($$str);
+    $$str =~ s{ ( \X ) \z }{}x;
+    return $1;
 }
 
 sub grapheme_reverse (;@) {
