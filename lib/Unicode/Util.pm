@@ -37,6 +37,7 @@ sub grapheme_length (;$) {
 
 sub grapheme_chop (;\[$@%]) {
     my ($str) = @_;
+    $str = \$_ unless defined $$str;
     utf8::upgrade($$str);
     $$str =~ s{ ( \X ) \z }{}x;
     return $1;
