@@ -59,6 +59,23 @@ sub grapheme_chop (;\[$@%]) {
             }
         }
     }
+    elsif (ref $ref eq 'HASH') {
+        my $elems = keys %$ref;
+        return undef unless $elems;
+
+        my $count = 0;
+        for my $str (values %$ref) {
+            utf8::upgrade($str);
+
+            if (++$count < $elems) {
+                $str =~ s{ \X \z }{}x;
+            }
+            else {
+                $str =~ s{ ( \X ) \z }{}x;
+                return $1;
+            }
+        }
+    }
 }
 
 sub grapheme_reverse (;@) {
