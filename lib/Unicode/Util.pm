@@ -76,6 +76,7 @@ sub grapheme_chop (;\[$@%]) {
 sub grapheme_reverse (;@) {
     my (@strings) = @_;
     return reverse @strings if wantarray;
+    @strings = $_ unless @strings;
     return join '', map { reverse m{ \X }xg } reverse @strings;
 }
 
