@@ -1,5 +1,8 @@
 Revision history for Perl module Unicode::Util
 
+v0.08_1 XXX
+ - TODO
+
 v0.08 2012-02-08
  - The new grapheme_length, grapheme_chop, and grapheme_reverse functions now
    work like CORE::length, CORE::chop, and CORE::reverse, respectively, except

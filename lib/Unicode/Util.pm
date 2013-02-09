@@ -9,7 +9,7 @@ use Encode qw( encode find_encoding );
 use Unicode::Normalize qw( normalize );
 use Scalar::Util qw( looks_like_number );
 
-our $VERSION = '0.08';
+our $VERSION = '0.08_1';
 our @EXPORT_OK = qw(
     grapheme_length
     grapheme_chop
@@ -197,7 +197,7 @@ Unicode::Util - Unicode grapheme-level versions of core Perl functions
 
 =head1 VERSION
 
-This document describes Unicode::Util v0.08.
+This document describes Unicode::Util v0.08_1.
 
 =head1 SYNOPSIS
 
