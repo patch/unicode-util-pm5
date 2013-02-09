@@ -9,13 +9,13 @@ SYNOPSIS
         use Unicode::Util qw( grapheme_length grapheme_reverse );
 
         # grapheme cluster ю́ (Cyrillic small letter yu, combining acute accent)
-        my $grapheme = "\x{044E}\x{0301}";
+        my $grapheme = "ю\x{0301}";
 
         say length($grapheme);           # 2 (length in code points)
         say grapheme_length($grapheme);  # 1 (length in grapheme clusters)
 
         # Spın̈al Tap; n̈ = Latin small letter n, combining diaeresis
-        my $band = "Sp\x{0131}n\x{0308}al Tap";
+        my $band = "Spın\x{0308}al Tap";
 
         say scalar reverse $band;     # paT länıpS
         say grapheme_reverse($band);  # paT lan̈ıpS
@@ -26,153 +26,48 @@ DESCRIPTION
     opposed to code points or bytes. Grapheme clusters correspond to
     user-perceived characters and may consist of multiple code points.
 
+    These functions are implemented using the "\X" character class, which
+    was introduced in Perl v5.6 and significantly improved in v5.12 to
+    properly match Unicode extended grapheme clusters. An example of a
+    notable change is that CR+LF <0x0D 0x0A> is now considered a single
+    grapheme cluster instead of two. For that reason, as well as additional
+    Unicode improvements, Perl v5.12 or greater is strongly recommended,
+    both for use with this module and as a language in general.
+
 FUNCTIONS
-    Functions may each be exported explicitly or by using the ":all" tag for
-    everything.
+    These functions may each be exported explicitly or by using the ":all"
+    tag for everything.
 
     grapheme_length($string)
     grapheme_length
-        Returns the length in graphemes clusters of the value of $string. If
-        $string is omitted, returns the length of $_. If $string is
-        undefined, returns "undef".
+        Works like "length" except the length is in number of grapheme
+        clusters.
 
     grapheme_chop($string)
-    grapheme_chop(@list)
+    grapheme_chop(@array)
     grapheme_chop(%hash)
     grapheme_chop
-        Chops off the last grapheme cluster of a string and returns the
-        grapheme cluster chopped. If $string is omitted, chops $_.
+        Works like "chop" except it operates on the last grapheme cluster.
 
-        If you chop a list, each element is chopped. Only the value of the
-        last element is returned. If you chop a hash, it chops the hash’s
-        values, but not its keys.
-
-        You can actually chop anything that’s an lvalue, including an
-        assignment.
-
-        Note that "grapheme_chop" returns the last grapheme cluster. To
-        return all but the last grapheme cluster, use
-        "grapheme_substr($string, 0, -1)".
-
+    grapheme_reverse($string)
     grapheme_reverse(@list)
-        In list context, returns a list value consisting of the elements of
-        @list in the opposite order. Concatenates the elements of @list and
-        returns a string value with all grapheme clusters in the opposite
-        order.
-
-            say join ', ', graphe_reverse 'world', 'Hello';  # Hello, world
-            say scalar grapheme_reverse 'dlrow ,', 'olleH';  # Hello, world
-
-        Used without arguments in scalar context, "grapheme_reverse"
-        reverses $_.
-
-            $_ = 'dlrow ,olleH';
-            print grapheme_reverse;         # No output, list context
-            print scalar grapheme_reverse;  # Hello, world
-
-        Note that reversing an array to itself (as in "@a = reverse @a")
-        will preserve non-existent elements whenever possible; i.e., for
-        non-magical arrays or for tied arrays with "EXISTS" and "DELETE"
-        methods.
-
-        This operator is also handy for inverting a hash, although there are
-        some caveats. If a value is duplicated in the original hash, only
-        one of those can be represented as a key in the inverted hash. Also,
-        this has to unwind one hash and build a whole new one, which may
-        take some time on a large hash, such as from a DBM file.
-
-            %by_name = grapheme_reverse %by_address;  # Invert the hash
+    grapheme_reverse
+        Works like "reverse" except it reverses grapheme clusters in scalar
+        context.
 
     grapheme_index($string, $substring, $position)
     grapheme_index($string, $substring)
-        The "grapheme_index" function searches for one string within
-        another, but without the wildcard-like behavior of a full
-        regular-expression pattern match. It returns the position ig
-        grapheme clusters of the first occurrence of $substring in $string
-        at or after the grapheme cluster $position. If $position is omitted,
-        starts searching from the beginning of the string. $position before
-        the beginning of the string or after its end is treated as if it
-        were the beginning or the end, respectively. $position and the
-        return value are based at zero. If the substring is not found,
-        "index" returns -1.
+        Works like "index" except the position is in grapheme clusters.
 
     grapheme_rindex($string, $substring, $position)
     grapheme_rindex($string, $substring)
-        Works just like "grapheme_index" except that it returns the position
-        in grapheme clusters of the *last* occurrence of $substring in
-        "string". If $position is specified, returns the last occurrence
-        beginning at or before that position in grapheme clusters.
+        Works like "rindex" except the position is in grapheme clusters.
 
     grapheme_substr($string, $offset, $length, $replacement)
     grapheme_substr($string, $offset, $length)
     grapheme_substr($string, $offset)
-        Extracts a substring out of $string and returns it. First grapheme
-        cluster is at offset zero. If $offset is negative, starts that far
-        back in grapheme clusters from the end of the string. If $length is
-        omitted, returns everything through the end of the string. If
-        $length is negative, leaves that many grapheme clusters off the end
-        of the string.
-
-            my $s = 'The black cat climbed the green tree';
-            my $color  = grapheme_substr $s, 4, 5;    # black
-            my $middle = grapheme_substr $s, 4, -11;  # black cat climbed the
-            my $end    = grapheme_substr $s, 14;      # climbed the green tree
-            my $tail   = grapheme_substr $s, -4;      # tree
-            my $z      = grapheme_substr $s, -4, 2;   # tr
-
-        You can use the "grapheme_substr" function as an lvalue, in which
-        case $string must itself be an lvalue. If you assign something
-        shorter than $length, the string will shrink, and if you assign
-        something longer than $length, the string will grow to accommodate
-        it. To keep the string the same length, you may need to pad or chop
-        your value using "sprintf".
-
-        If $offset and $length specify a substring that is partly outside
-        the string, only the part within the string is returned. If the
-        substring is beyond either end of the string, "graphame_substr"
-        returns the undefined value and produces a warning. When used as an
-        lvalue, specifying a substring that is entirely outside the string
-        raises an exception. Here’s an example showing the behavior for
-        boundary cases:
-
-            my $name = 'fred';
-            grapheme_substr($name, 4) = 'dy';        # $name is now 'freddy'
-            my $null = grapheme_substr $name, 6, 2;  # returns '' (no warning)
-            my $oops = grapheme_substr $name, 7;     # returns undef, with warning
-            grapheme_substr($name, 7) = 'gap';       # raises an exception
-
-        An alternative to using "grapheme_substr" as an lvalue is to specify
-        the replacement string as the 4th argument. This allows you to
-        replace parts of the $string and return what was there before in one
-        operation, just as you can with "splice".
-
-            my $s = 'The black cat climbed the green tree';
-            my $z = graphe_substr $s, 14, 7, 'jumped from';  # climbed
-            # $s is now 'The black cat jumped from the green tree'
-
-        Note that the lvalue returned by the three-argument version of
-        "substr" acts as a “magic bullet”; each time it is assigned to, it
-        remembers which part of the original string is being modified; for
-        example:
-
-            $x = '1234';
-            for ( grapheme_substr($x, 1, 2) ) {
-                $_ = 'a';   say $x;  # prints 1a4
-                $_ = 'xyz'; say $x;  # prints 1xyz4
-                $x = '56789';
-                $_ = 'pq';  say $x;  # prints 5pq9
-            }
-
-        With negative offsets, it remembers its position in grapheme
-        clusters from the end of the string when the target string is
-        modified:
-
-            $x = '1234';
-            for ( grapheme_substr($x, -3, 2) ) {
-                $_ = 'a'; say $x;  # prints 1a4, as above
-                $x = 'abcdefg';
-                say;               # prints f
-            }
+        Works like "substr" except the offset and length are in grapheme
+        clusters.
 
 SEE ALSO
     Unicode::GCString, String::Multibyte, Perl6::Str,

@@ -204,13 +204,13 @@ This document describes Unicode::Util version 0.07_1.
     use Unicode::Util qw( grapheme_length grapheme_reverse );
 
     # grapheme cluster ю́ (Cyrillic small letter yu, combining acute accent)
-    my $grapheme = "\x{044E}\x{0301}";
+    my $grapheme = "ю\x{0301}";
 
     say length($grapheme);           # 2 (length in code points)
     say grapheme_length($grapheme);  # 1 (length in grapheme clusters)
 
     # Spın̈al Tap; n̈ = Latin small letter n, combining diaeresis
-    my $band = "Sp\x{0131}n\x{0308}al Tap";
+    my $band = "Spın\x{0308}al Tap";
 
     say scalar reverse $band;     # paT länıpS
     say grapheme_reverse($band);  # paT lan̈ıpS
@@ -239,7 +239,9 @@ everything.
 
 =item grapheme_length($string)
 
-Works like C<length> except that it returns the number of grapheme clusters.
+=item grapheme_length
+
+Works like C<length> except the length is in number of grapheme clusters.
 
 =item grapheme_chop($string)
 
@@ -247,34 +249,29 @@ Works like C<length> except that it returns the number of grapheme clusters.
 
 =item grapheme_chop(%hash)
 
-Works like C<chop> except that it chops off the last grapheme cluster.
+=item grapheme_chop
+
+Works like C<chop> except it operates on the last grapheme cluster.
+
+=item grapheme_reverse($string)
 
 =item grapheme_reverse(@list)
 
-Works like C<reverse> except that it places all grapheme clusters in the
-opposite order.
+=item grapheme_reverse
+
+Works like C<reverse> except it reverses grapheme clusters in scalar context.
 
 =item grapheme_index($string, $substring, $position)
 
 =item grapheme_index($string, $substring)
 
-The C<grapheme_index> function searches for one string within another, but
-without the wildcard-like behavior of a full regular-expression pattern match.
-It returns the position ig grapheme clusters of the first occurrence of
-C<$substring> in C<$string> at or after the grapheme cluster C<$position>.  If
-C<$position> is omitted, starts searching from the beginning of the string.
-C<$position> before the beginning of the string or after its end is treated as
-if it were the beginning or the end, respectively.  C<$position> and the return
-value are based at zero.  If the substring is not found, C<index> returns C<-1>.
+Works like C<index> except the position is in grapheme clusters.
 
 =item grapheme_rindex($string, $substring, $position)
 
 =item grapheme_rindex($string, $substring)
 
-Works just like C<grapheme_index> except that it returns the position in
-grapheme clusters of the I<last> occurrence of C<$substring> in C<string>.  If
-C<$position> is specified, returns the last occurrence beginning at or before
-that position in grapheme clusters.
+Works like C<rindex> except the position is in grapheme clusters.
 
 =item grapheme_substr($string, $offset, $length, $replacement)
 
@@ -282,68 +279,7 @@ that position in grapheme clusters.
 
 =item grapheme_substr($string, $offset)
 
-Extracts a substring out of C<$string> and returns it.  First grapheme cluster
-is at offset zero.  If C<$offset> is negative, starts that far back in grapheme
-clusters from the end of the string.  If C<$length> is omitted, returns
-everything through the end of the string.  If C<$length> is negative, leaves
-that many grapheme clusters off the end of the string.
-
-    my $s = 'The black cat climbed the green tree';
-    my $color  = grapheme_substr $s, 4, 5;    # black
-    my $middle = grapheme_substr $s, 4, -11;  # black cat climbed the
-    my $end    = grapheme_substr $s, 14;      # climbed the green tree
-    my $tail   = grapheme_substr $s, -4;      # tree
-    my $z      = grapheme_substr $s, -4, 2;   # tr
-
-You can use the C<grapheme_substr> function as an lvalue, in which case
-C<$string> must itself be an lvalue.  If you assign something shorter than
-C<$length>, the string will shrink, and if you assign something longer than
-C<$length>, the string will grow to accommodate it.  To keep the string the same
-length, you may need to pad or chop your value using C<sprintf>.
-
-If C<$offset> and C<$length> specify a substring that is partly outside the
-string, only the part within the string is returned.  If the substring is beyond
-either end of the string, C<graphame_substr> returns the undefined value and
-produces a warning.  When used as an lvalue, specifying a substring that is
-entirely outside the string raises an exception.  Here’s an example showing the
-behavior for boundary cases:
-
-    my $name = 'fred';
-    grapheme_substr($name, 4) = 'dy';        # $name is now 'freddy'
-    my $null = grapheme_substr $name, 6, 2;  # returns '' (no warning)
-    my $oops = grapheme_substr $name, 7;     # returns undef, with warning
-    grapheme_substr($name, 7) = 'gap';       # raises an exception
-
-An alternative to using C<grapheme_substr> as an lvalue is to specify the
-replacement string as the 4th argument.  This allows you to replace parts of the
-C<$string> and return what was there before in one operation, just as you can
-with C<splice>.
-
-    my $s = 'The black cat climbed the green tree';
-    my $z = graphe_substr $s, 14, 7, 'jumped from';  # climbed
-    # $s is now 'The black cat jumped from the green tree'
-
-Note that the lvalue returned by the three-argument version of C<substr> acts as
-a “magic bullet”; each time it is assigned to, it remembers which part of the
-original string is being modified; for example:
-
-    $x = '1234';
-    for ( grapheme_substr($x, 1, 2) ) {
-        $_ = 'a';   say $x;  # prints 1a4
-        $_ = 'xyz'; say $x;  # prints 1xyz4
-        $x = '56789';
-        $_ = 'pq';  say $x;  # prints 5pq9
-    }
-
-With negative offsets, it remembers its position in grapheme clusters from the
-end of the string when the target string is modified:
-
-    $x = '1234';
-    for ( grapheme_substr($x, -3, 2) ) {
-        $_ = 'a'; say $x;  # prints 1a4, as above
-        $x = 'abcdefg';
-        say;               # prints f
-    }
+Works like C<substr> except the offset and length are in grapheme clusters.
 
 =back
 
