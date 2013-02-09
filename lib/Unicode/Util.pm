@@ -222,66 +222,37 @@ built-in string functions, tailored to work on grapheme clusters as opposed to
 code points or bytes.  Grapheme clusters correspond to user-perceived characters
 and may consist of multiple code points.
 
+These functions are implemented using the C<\X> character class, which was
+introduced in Perl v5.6 and significantly improved in v5.12 to properly match
+Unicode extended grapheme clusters.  An example of a notable change is that
+CR+LF <0x0D 0x0A> is now considered a single grapheme cluster instead of two.
+For that reason, as well as additional Unicode improvements, Perl v5.12 or
+greater is strongly recommended, both for use with this module and as a language
+in general.
+
 =head1 FUNCTIONS
 
-Functions may each be exported explicitly or by using the C<:all> tag for
+These functions may each be exported explicitly or by using the C<:all> tag for
 everything.
 
 =over
 
 =item grapheme_length($string)
 
-=item grapheme_length
-
-Returns the length in graphemes clusters of the value of C<$string>.  If
-C<$string> is omitted, returns the length of C<$_>.  If C<$string> is undefined,
-returns C<undef>.
+Works like C<length> except that it returns the number of grapheme clusters.
 
 =item grapheme_chop($string)
 
-=item grapheme_chop(@list)
+=item grapheme_chop(@array)
 
 =item grapheme_chop(%hash)
 
-=item grapheme_chop
-
-Chops off the last grapheme cluster of a string and returns the grapheme cluster
-chopped.  If C<$string> is omitted, chops C<$_>.
-
-If you chop a list, each element is chopped.  Only the value of the last element
-is returned.  If you chop a hash, it chops the hash’s values, but not its keys.
-
-You can actually chop anything that’s an lvalue, including an assignment.
-
-Note that C<grapheme_chop> returns the last grapheme cluster.  To return all but
-the last grapheme cluster, use C<grapheme_substr($string, 0, -1)>.
+Works like C<chop> except that it chops off the last grapheme cluster.
 
 =item grapheme_reverse(@list)
 
-In list context, returns a list value consisting of the elements
-of C<@list> in the opposite order.  Concatenates the elements of C<@list> and returns a string value with all
-grapheme clusters in the opposite order.
-
-    say join ', ', graphe_reverse 'world', 'Hello';  # Hello, world
-    say scalar grapheme_reverse 'dlrow ,', 'olleH';  # Hello, world
-
-Used without arguments in scalar context, C<grapheme_reverse> reverses C<$_>.
-
-    $_ = 'dlrow ,olleH';
-    print grapheme_reverse;         # No output, list context
-    print scalar grapheme_reverse;  # Hello, world
-
-Note that reversing an array to itself (as in C<@a = reverse @a>) will preserve
-non-existent elements whenever possible; i.e., for non-magical arrays or for
-tied arrays with C<EXISTS> and C<DELETE> methods.
-
-This operator is also handy for inverting a hash, although there are some
-caveats.  If a value is duplicated in the original hash, only one of those can
-be represented as a key in the inverted hash.  Also, this has to unwind one hash
-and build a whole new one, which may take some time on a large hash, such as
-from a DBM file.
-
-    %by_name = grapheme_reverse %by_address;  # Invert the hash
+Works like C<reverse> except that it places all grapheme clusters in the
+opposite order.
 
 =item grapheme_index($string, $substring, $position)
 
