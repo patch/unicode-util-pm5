@@ -30,18 +30,17 @@ use constant IS_NORMAL_FORM   => qr{^ (?:NF)? K? [CD] $}xi;
 
 sub grapheme_length (;$) {
     my ($str) = @_;
-    $str = $_ unless defined $str;
-    return undef unless defined $str;
+    $str = $_ unless @_;
     return scalar( () = $str =~ m{ \X }xg );
 }
 
 sub grapheme_chop (;\[$@%]) {
     my ($ref) = @_;
-    $ref = \$_ unless defined $ref;
+    $ref = \$_ unless @_;
 
     if (ref $ref eq 'SCALAR') {
         $$ref =~ s{ ( \X ) \z }{}x;
-        return $1;
+        return defined $1 ? $1 : '';
     }
     elsif (ref $ref eq 'ARRAY') {
         return undef unless @$ref;
@@ -52,7 +51,7 @@ sub grapheme_chop (;\[$@%]) {
             }
             else {
                 $ref->[$i] =~ s{ ( \X ) \z }{}x;
-                return $1;
+                return defined $1 ? $1 : '';
             }
         }
     }
@@ -67,7 +66,7 @@ sub grapheme_chop (;\[$@%]) {
             }
             else {
                 $str =~ s{ ( \X ) \z }{}x;
-                return $1;
+                return defined $1 ? $1 : '';
             }
         }
     }

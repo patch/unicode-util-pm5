@@ -2,7 +2,8 @@ use strict;
 use warnings;
 use utf8;
 use open qw( :encoding(UTF-8) :std );
-use Test::More tests => 6;
+use Test::More tests => 17;
+use Test::Warn;
 use Unicode::Util qw( grapheme_reverse );
 
 # Unicode::Util tests for grapheme_reverse
@@ -33,6 +34,34 @@ is_deeply(
     'grapheme_reverse on list of strings of grapheme clusters in list context'
 );
 
+warning_like {
+    is(
+        scalar grapheme_reverse(undef),
+        '',
+        'grapheme_reverse on undef in scalar context'
+    );
+} qr{^Use of uninitialized value}, 'warns on undef';
+
+is_deeply(
+    [grapheme_reverse(undef)],
+    [undef],
+    'grapheme_reverse on undef in list context'
+);
+
+warnings_like {
+    is(
+        scalar grapheme_reverse(undef, undef),
+        '',
+        'grapheme_reverse on list of undef in scalar context'
+    );
+} [(qr{^Use of uninitialized value}) x 2], 'warns for each undef';
+
+is_deeply(
+    [grapheme_reverse(undef, undef)],
+    [undef, undef],
+    'grapheme_reverse on list of undef in list context'
+);
+
 $_ = $str;
 
 is(
@@ -46,3 +75,27 @@ is_deeply(
     [],
     'grapheme_reverse with no arguments in list context'
 );
+
+warning_like {
+    is(
+        scalar grapheme_reverse(undef),
+        '',
+        'grapheme_reverse on undef in scalar context when $_ is set'
+    );
+} qr{^Use of uninitialized value}, 'warns on undef';
+
+is_deeply(
+    [grapheme_reverse(undef)],
+    [undef],
+    'grapheme_reverse on undef in list context whe $_ is set'
+);
+
+undef $_;
+
+warning_like {
+    is(
+        scalar grapheme_reverse(),
+        '',
+        'grapheme_reverse on undef in scalar context using $_'
+    );
+} qr{^Use of uninitialized value}, 'warns on undef';
