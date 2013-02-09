@@ -56,13 +56,13 @@ is_deeply(
     'grapheme_split returns empty list for empty string'
 );
 
-warning_is {
+warning_like {
     is_deeply(
         [ grapheme_split(undef) ],
         [ ],
         'grapheme_split returns empty list for undef'
     );
 } (
-    'Use of uninitialized value in subroutine entry',
+    qr{^Use of uninitialized value},
     'grapheme_split warns for undef'
 );

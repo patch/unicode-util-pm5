@@ -7,12 +7,13 @@ plan skip_all => 'Test::Pod::Coverage 1.00 not installed; skipping' if $@;
 
 all_pod_coverage_ok({ trustme => [qw<
     byte_length
-    code_chop
     code_length
+    code_chop
+    graph_length
     graph_chop
+    graph_reverse
     grapheme_index
     grapheme_rindex
+    grapheme_substr
     grapheme_split
-    graph_length
-    graph_reverse
 >] });

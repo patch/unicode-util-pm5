@@ -2,10 +2,9 @@ use strict;
 use warnings;
 use utf8;
 use open qw( :encoding(UTF-8) :std );
-use Test::More;
+use Test::More tests => 1;
 #use Unicode::Util qw( grapheme_substr );
 
 # Unicode::Util tests for grapheme_substr
 
-# TODO: write tests!
-done_testing();
+pass('TODO: write tests!');

@@ -1,9 +1,8 @@
 NAME
-    Unicode::Util - Unicode grapheme-level versions of built-in Perl
-    functions
+    Unicode::Util - Unicode grapheme-level versions of core Perl functions
 
 VERSION
-    This document describes Unicode::Util version 0.07_1.
+    This document describes Unicode::Util v0.08.
 
 SYNOPSIS
         use Unicode::Util qw( grapheme_length grapheme_reverse );
@@ -21,11 +20,12 @@ SYNOPSIS
         say grapheme_reverse($band);  # paT lan̈ıpS
 
 DESCRIPTION
-    This module provides Unicode grapheme cluster–level versions of Perl’s
-    built-in string functions, tailored to work on grapheme clusters as
-    opposed to code points or bytes. Grapheme clusters correspond to
-    user-perceived characters and may consist of multiple code points.
+    This module provides versions of core Perl string functions tailored to
+    work on Unicode grapheme clusters, which are what users perceive as
+    characters, as opposed to code points, which are what Perl considers
+    characters.
 
+FUNCTIONS
     These functions are implemented using the "\X" character class, which
     was introduced in Perl v5.6 and significantly improved in v5.12 to
     properly match Unicode extended grapheme clusters. An example of a
@@ -34,7 +34,6 @@ DESCRIPTION
     Unicode improvements, Perl v5.12 or greater is strongly recommended,
     both for use with this module and as a language in general.
 
-FUNCTIONS
     These functions may each be exported explicitly or by using the ":all"
     tag for everything.
 
@@ -55,23 +54,12 @@ FUNCTIONS
         Works like "reverse" except it reverses grapheme clusters in scalar
         context.
 
-    grapheme_index($string, $substring, $position)
-    grapheme_index($string, $substring)
-        Works like "index" except the position is in grapheme clusters.
-
-    grapheme_rindex($string, $substring, $position)
-    grapheme_rindex($string, $substring)
-        Works like "rindex" except the position is in grapheme clusters.
-
-    grapheme_substr($string, $offset, $length, $replacement)
-    grapheme_substr($string, $offset, $length)
-    grapheme_substr($string, $offset)
-        Works like "substr" except the offset and length are in grapheme
-        clusters.
+TODO
+    "grapheme_index", "grapheme_rindex", "grapheme_substr"
 
 SEE ALSO
-    Unicode::GCString, String::Multibyte, Perl6::Str,
-    <http://perlcabal.org/syn/S32/Str.html>
+    Unicode::GCString, <http://www.unicode.org/reports/tr29/>, Perl6::Str,
+    <http://perlcabal.org/syn/S32/Str.html>, String::Multibyte
 
 AUTHOR
     Nick Patch <patch@cpan.org>

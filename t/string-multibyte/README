@@ -1,5 +1,0 @@
-This directory contains relevant tests from the Perl 5 module
-String::Multibyte, modified as needed to match the desired functionality of
-Unicode::Util.
-
-https://metacpan.org/module/String::Multibyte

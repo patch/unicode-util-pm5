@@ -9,7 +9,7 @@ use Encode qw( encode find_encoding );
 use Unicode::Normalize qw( normalize );
 use Scalar::Util qw( looks_like_number );
 
-our $VERSION = '0.07_1';
+our $VERSION = '0.08';
 our @EXPORT_OK = qw(
     grapheme_length
     grapheme_chop
@@ -193,11 +193,11 @@ __END__
 
 =head1 NAME
 
-Unicode::Util - Unicode grapheme-level versions of built-in Perl functions
+Unicode::Util - Unicode grapheme-level versions of core Perl functions
 
 =head1 VERSION
 
-This document describes Unicode::Util version 0.07_1.
+This document describes Unicode::Util v0.08.
 
 =head1 SYNOPSIS
 
@@ -217,10 +217,11 @@ This document describes Unicode::Util version 0.07_1.
 
 =head1 DESCRIPTION
 
-This module provides Unicode grapheme cluster–level versions of Perl’s
-built-in string functions, tailored to work on grapheme clusters as opposed to
-code points or bytes.  Grapheme clusters correspond to user-perceived characters
-and may consist of multiple code points.
+This module provides versions of core Perl string functions tailored to work on
+Unicode grapheme clusters, which are what users perceive as characters, as
+opposed to code points, which are what Perl considers characters.
+
+=head1 FUNCTIONS
 
 These functions are implemented using the C<\X> character class, which was
 introduced in Perl v5.6 and significantly improved in v5.12 to properly match
@@ -229,8 +230,6 @@ CR+LF <0x0D 0x0A> is now considered a single grapheme cluster instead of two.
 For that reason, as well as additional Unicode improvements, Perl v5.12 or
 greater is strongly recommended, both for use with this module and as a language
 in general.
-
-=head1 FUNCTIONS
 
 These functions may each be exported explicitly or by using the C<:all> tag for
 everything.
@@ -261,32 +260,16 @@ Works like C<chop> except it operates on the last grapheme cluster.
 
 Works like C<reverse> except it reverses grapheme clusters in scalar context.
 
-=item grapheme_index($string, $substring, $position)
-
-=item grapheme_index($string, $substring)
-
-Works like C<index> except the position is in grapheme clusters.
-
-=item grapheme_rindex($string, $substring, $position)
-
-=item grapheme_rindex($string, $substring)
-
-Works like C<rindex> except the position is in grapheme clusters.
-
-=item grapheme_substr($string, $offset, $length, $replacement)
-
-=item grapheme_substr($string, $offset, $length)
-
-=item grapheme_substr($string, $offset)
-
-Works like C<substr> except the offset and length are in grapheme clusters.
-
 =back
+
+=head1 TODO
+
+C<grapheme_index>, C<grapheme_rindex>, C<grapheme_substr>
 
 =head1 SEE ALSO
 
-L<Unicode::GCString>, L<String::Multibyte>, L<Perl6::Str>,
-L<http://perlcabal.org/syn/S32/Str.html>
+L<Unicode::GCString>, L<http://www.unicode.org/reports/tr29/>, L<Perl6::Str>,
+L<http://perlcabal.org/syn/S32/Str.html>, L<String::Multibyte>
 
 =head1 AUTHOR
 
