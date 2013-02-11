@@ -87,16 +87,14 @@ sub grapheme_index ($$;$) {
     if (!looks_like_number($pos) || $pos < 0) {
         $pos = 0;
     }
-    elsif ($pos > (my $graphs = grapheme_length($str))) {
-        $pos = $graphs;
+    elsif ($pos > (my $length = grapheme_length($str))) {
+        $pos = $length;
     }
 
-    if ($str =~ m{ ^ ( \X{$pos} \X*? ) \Q$substr\E }xg) {
-        return grapheme_length($1);
-    }
-    else {
-        return -1;
-    }
+    return grapheme_length($1) + $[
+        if $str =~ m{ ^ ( \X{$pos} \X*? ) \Q$substr\E }xg;
+
+    return -1;
 }
 
 sub grapheme_rindex ($$;$) {
@@ -111,12 +109,10 @@ sub grapheme_rindex ($$;$) {
         $str = substr $str, 0, $pos + ($substr ? 1 : 0);
     }
 
-    if ($str =~ m{ ^ ( \X* ) \Q$substr\E }xg) {
-        return grapheme_length($1);
-    }
-    else {
-        return -1;
-    }
+    return grapheme_length($1)
+        if $str =~ m{ ^ ( \X* ) \Q$substr\E }xg;
+
+    return -1;
 }
 
 sub grapheme_substr ($$;$$) :lvalue {
