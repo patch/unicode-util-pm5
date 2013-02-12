@@ -1,16 +1,18 @@
 Revision history for Perl module Unicode::Util
 
-v0.08_1 XXX
- - TODO
+v0.09 2013-02-11
+ - grapheme_length is now officially supported and no longer experimental
+ - grapheme_length now returns a value based at 0 or whatever you’ve set the $[
+   variable to—like with CORE::index—but don’t do that!
 
-v0.08 2012-02-08
+v0.08 2013-02-08
  - The new grapheme_length, grapheme_chop, and grapheme_reverse functions now
    work like CORE::length, CORE::chop, and CORE::reverse, respectively, except
    on grapheme clusters instead of code points
  - The old graph_length, graph_chop, and graph_reverse will remain unchanged and
    deprecated
 
-v0.07 2012-01-29
+v0.07 2013-01-29
  - Converted this Changes file from YAML to CPAN Changes format as per
    CPAN::Changes::Spec
  - Added grapheme_length, grapheme_chop, and grapheme_reverse as the primary

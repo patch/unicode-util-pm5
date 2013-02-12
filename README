@@ -2,19 +2,19 @@ NAME
     Unicode::Util - Unicode grapheme-level versions of core Perl functions
 
 VERSION
-    This document describes Unicode::Util v0.08.
+    This document describes Unicode::Util v0.09.
 
 SYNOPSIS
         use Unicode::Util qw( grapheme_length grapheme_reverse );
 
         # grapheme cluster ю́ (Cyrillic small letter yu, combining acute accent)
-        my $grapheme = "ю\x{0301}";
+        my $grapheme = "ю\x{301}";
 
         say length($grapheme);           # 2 (length in code points)
         say grapheme_length($grapheme);  # 1 (length in grapheme clusters)
 
         # Spın̈al Tap; n̈ = Latin small letter n, combining diaeresis
-        my $band = "Spın\x{0308}al Tap";
+        my $band = "Spın\x{308}al Tap";
 
         say scalar reverse $band;     # paT länıpS
         say grapheme_reverse($band);  # paT lan̈ıpS
@@ -53,6 +53,10 @@ FUNCTIONS
     grapheme_reverse
         Works like "reverse" except it reverses grapheme clusters in scalar
         context.
+
+    grapheme_index($string, $substring, $position)
+    grapheme_index($string, $substring)
+        Works like "index" except the position is in grapheme clusters.
 
 TODO
     "grapheme_index", "grapheme_rindex", "grapheme_substr"

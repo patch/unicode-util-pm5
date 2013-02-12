@@ -9,7 +9,7 @@ use Encode qw( encode find_encoding );
 use Unicode::Normalize qw( normalize );
 use Scalar::Util qw( looks_like_number );
 
-our $VERSION = '0.08_1';
+our $VERSION = '0.09';
 our @EXPORT_OK = qw(
     grapheme_length
     grapheme_chop
@@ -79,8 +79,6 @@ sub grapheme_reverse (;@) {
     return join '', map { reverse m{ \X }xg } reverse @strings;
 }
 
-# experimental functions
-
 sub grapheme_index ($$;$) {
     my ($str, $substr, $pos) = @_;
 
@@ -96,6 +94,8 @@ sub grapheme_index ($$;$) {
 
     return -1;
 }
+
+# experimental functions
 
 sub grapheme_rindex ($$;$) {
     my ($str, $substr, $pos) = @_;
@@ -192,20 +192,20 @@ Unicode::Util - Unicode grapheme-level versions of core Perl functions
 
 =head1 VERSION
 
-This document describes Unicode::Util v0.08_1.
+This document describes Unicode::Util v0.09.
 
 =head1 SYNOPSIS
 
     use Unicode::Util qw( grapheme_length grapheme_reverse );
 
     # grapheme cluster ю́ (Cyrillic small letter yu, combining acute accent)
-    my $grapheme = "ю\x{0301}";
+    my $grapheme = "ю\x{301}";
 
     say length($grapheme);           # 2 (length in code points)
     say grapheme_length($grapheme);  # 1 (length in grapheme clusters)
 
     # Spın̈al Tap; n̈ = Latin small letter n, combining diaeresis
-    my $band = "Spın\x{0308}al Tap";
+    my $band = "Spın\x{308}al Tap";
 
     say scalar reverse $band;     # paT länıpS
     say grapheme_reverse($band);  # paT lan̈ıpS
@@ -254,6 +254,12 @@ Works like C<chop> except it operates on the last grapheme cluster.
 =item grapheme_reverse
 
 Works like C<reverse> except it reverses grapheme clusters in scalar context.
+
+=item grapheme_index($string, $substring, $position)
+
+=item grapheme_index($string, $substring)
+
+Works like C<index> except the position is in grapheme clusters.
 
 =back
 
