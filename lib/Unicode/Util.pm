@@ -265,7 +265,7 @@ Works like C<index> except the position is in grapheme clusters.
 
 =head1 TODO
 
-C<grapheme_index>, C<grapheme_rindex>, C<grapheme_substr>
+C<grapheme_rindex>, C<grapheme_substr>
 
 =head1 SEE ALSO
 

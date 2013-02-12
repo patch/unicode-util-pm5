@@ -59,7 +59,7 @@ FUNCTIONS
         Works like "index" except the position is in grapheme clusters.
 
 TODO
-    "grapheme_index", "grapheme_rindex", "grapheme_substr"
+    "grapheme_rindex", "grapheme_substr"
 
 SEE ALSO
     Unicode::GCString, <http://www.unicode.org/reports/tr29/>, Perl6::Str,
