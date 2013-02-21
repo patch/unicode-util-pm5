@@ -26,13 +26,14 @@ DESCRIPTION
     characters.
 
 FUNCTIONS
-    These functions are implemented using the "\X" character class, which
-    was introduced in Perl v5.6 and significantly improved in v5.12 to
-    properly match Unicode extended grapheme clusters. An example of a
-    notable change is that CR+LF <0x0D 0x0A> is now considered a single
-    grapheme cluster instead of two. For that reason, as well as additional
-    Unicode improvements, Perl v5.12 or greater is strongly recommended,
-    both for use with this module and as a language in general.
+    These functions all operate on character strings, not byte strings. They
+    are implemented using the "\X" character class, which was introduced in
+    Perl v5.6 and significantly improved in v5.12 to properly match Unicode
+    extended grapheme clusters. An example of a notable change is that CR+LF
+    <0x0D 0x0A> is now considered a single grapheme cluster instead of two.
+    For that reason, as well as additional Unicode improvements, Perl v5.12
+    or greater is strongly recommended, both for use with this module and as
+    a language in general.
 
     These functions may each be exported explicitly or by using the ":all"
     tag for everything.
@@ -62,8 +63,17 @@ TODO
     "grapheme_rindex", "grapheme_substr"
 
 SEE ALSO
-    Unicode::GCString, <http://www.unicode.org/reports/tr29/>, Perl6::Str,
-    <http://perlcabal.org/syn/S32/Str.html>, String::Multibyte
+    *   Unicode::GCString - String as sequence of UAX #29 grapheme clusters
+
+    *   Perl6::Str - Grapheme-level string implementation for Perl 5
+
+    *   String::Multibyte - Manipulation of multibyte character strings
+
+    *   <http://www.unicode.org/reports/tr29/> - UAX #29: Unicode Text
+        Segmentation
+
+    *   <http://perlcabal.org/syn/S32/Str.html> - Perl 6 Synopsis 32:
+        Setting Library—Str
 
 AUTHOR
     Nick Patch <patch@cpan.org>

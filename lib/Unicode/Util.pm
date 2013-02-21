@@ -218,13 +218,13 @@ opposed to code points, which are what Perl considers characters.
 
 =head1 FUNCTIONS
 
-These functions are implemented using the C<\X> character class, which was
-introduced in Perl v5.6 and significantly improved in v5.12 to properly match
-Unicode extended grapheme clusters.  An example of a notable change is that
-CR+LF <0x0D 0x0A> is now considered a single grapheme cluster instead of two.
-For that reason, as well as additional Unicode improvements, Perl v5.12 or
-greater is strongly recommended, both for use with this module and as a language
-in general.
+These functions all operate on character strings, not byte strings.  They are
+implemented using the C<\X> character class, which was introduced in Perl v5.6
+and significantly improved in v5.12 to properly match Unicode extended grapheme
+clusters.  An example of a notable change is that CR+LF S<<0x0D 0x0A>> is now
+considered a single grapheme cluster instead of two.  For that reason, as well
+as additional Unicode improvements, Perl v5.12 or greater is strongly
+recommended, both for use with this module and as a language in general.
 
 These functions may each be exported explicitly or by using the C<:all> tag for
 everything.
@@ -269,8 +269,21 @@ C<grapheme_rindex>, C<grapheme_substr>
 
 =head1 SEE ALSO
 
-L<Unicode::GCString>, L<http://www.unicode.org/reports/tr29/>, L<Perl6::Str>,
-L<http://perlcabal.org/syn/S32/Str.html>, L<String::Multibyte>
+=over
+
+=item * L<Unicode::GCString> - String as sequence of UAX #29 grapheme clusters
+
+=item * L<Perl6::Str> - Grapheme-level string implementation for Perl 5
+
+=item * L<String::Multibyte> - Manipulation of multibyte character strings
+
+=item * L<http://www.unicode.org/reports/tr29/> - UAX #29: Unicode Text
+Segmentation
+
+=item * L<http://perlcabal.org/syn/S32/Str.html> - Perl 6 Synopsis 32: Setting
+Library—Str
+
+=back
 
 =head1 AUTHOR
 
