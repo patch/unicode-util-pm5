@@ -2,7 +2,7 @@ NAME
     Unicode::Util - Unicode grapheme-level versions of core Perl functions
 
 VERSION
-    This document describes Unicode::Util v0.09.
+    This document describes Unicode::Util v0.09_1.
 
 SYNOPSIS
         use Unicode::Util qw( grapheme_length grapheme_reverse );
