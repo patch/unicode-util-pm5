@@ -29,6 +29,8 @@ our %EXPORT_TAGS = (
 use constant DEFAULT_ENCODING => 'UTF-8';
 use constant IS_NORMAL_FORM   => qr{^ (?:NF)? K? [CD] $}xi;
 
+sub grapheme_substr (\$$;$$);
+
 sub grapheme_length (;$) {
     my ($str) = @_;
     $str = $_ unless @_;
@@ -106,8 +108,7 @@ sub grapheme_rindex ($$;$) {
     }
 
     if ($pos) {
-        # TODO: replace with grapheme_substr
-        $str = substr $str, 0, $pos + ($substr ? 1 : 0);
+        $str = grapheme_substr($str, 0, $pos + ($substr ? 1 : 0));
     }
 
     return grapheme_length($1)
@@ -133,7 +134,7 @@ sub grapheme_substr (\$$;$$) {
             if ($length >= 0) {
                 return $1 if $$str =~ m{
                     ^ \X{$offset}
-                    ( \X{$length} )
+                    ( \X{0,$length} )
                 }x;
             }
             else {
@@ -169,7 +170,7 @@ sub grapheme_substr (\$$;$$) {
                 return $1 if $$str =~ s{
                     #(?<= ^ \X{$offset} )
                     (?<= ^ .{$offset} )
-                    ( \X{$length} )
+                    ( \X{0,$length} )
                 }{$replacement}x;
             }
             else {
@@ -343,6 +344,12 @@ Works like C<reverse> except it reverses grapheme clusters in scalar context.
 
 Works like C<index> except the position is in grapheme clusters.
 
+=item grapheme_rindex($string, $substring, $position)
+
+=item grapheme_rindex($string, $substring)
+
+Works like C<rindex> except the position is in grapheme clusters.
+
 =item grapheme_substr($string, $offset, $length, $replacement)
 
 =item grapheme_substr($string, $offset, $length)
@@ -352,10 +359,6 @@ Works like C<index> except the position is in grapheme clusters.
 Works like C<substr> except the offset and length are in grapheme clusters.
 
 =back
-
-=head1 TODO
-
-C<grapheme_rindex>
 
 =head1 SEE ALSO
 

@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use utf8;
 use open qw( :encoding(UTF-8) :std );
-use Test::More tests => 7;
+use Test::More tests => 10;
 use Unicode::Util qw( grapheme_substr );
 
 # Unicode::Util tests for grapheme_substr
@@ -16,3 +16,8 @@ is grapheme_substr($s, -4, 2),   'tr';
 
 is grapheme_substr($s, 14, 7, 'jumped from'), 'climbed';
 is $s, 'The black cat jumped from the green tree';
+
+$s = 'Hello';
+is grapheme_substr($s, 0, 999), 'Hello';
+is grapheme_substr($s, 5, 999, 'o'), '';
+is $s, 'Helloo';
