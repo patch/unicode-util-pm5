@@ -16,6 +16,7 @@ our @EXPORT_OK = qw(
     grapheme_reverse
     grapheme_index
     grapheme_rindex
+    grapheme_substr
     grapheme_split
     graph_length graph_chop graph_reverse
     byte_length code_length code_chop
@@ -115,9 +116,90 @@ sub grapheme_rindex ($$;$) {
     return -1;
 }
 
-sub grapheme_substr ($$;$$) :lvalue {
+sub grapheme_substr (\$$;$$) {
     my ($str, $offset, $length, $replacement) = @_;
-    return;
+
+    if (@_ == 2) {
+        if ($offset >= 0) {
+            return $1 if $$str =~ m{ ^ \X{$offset} ( .* ) }x;
+        }
+        else {
+            my $abs_offset = abs $offset;
+            return $1 if $$str =~ m{ ( \X{0,$abs_offset} ) \z }x;
+        }
+    }
+    elsif (@_ == 3) {
+        if ($offset >= 0) {
+            if ($length >= 0) {
+                return $1 if $$str =~ m{
+                    ^ \X{$offset}
+                    ( \X{$length} )
+                }x;
+            }
+            else {
+                my $abs_length = abs $length;
+                return $1 if $$str =~ m{
+                    ^ \X{$offset}
+                    ( .* )
+                    \X{$abs_length} \z
+                }x;
+            }
+        }
+        else {
+            my $abs_offset = abs $offset;
+            if ($length >= 0) {
+                return $1 if $$str =~ m{
+                    (?= \X{$abs_offset} \z )
+                    ( \X{0,$length} )
+                }x;
+            }
+            else {
+                my $abs_length = abs $length;
+                return $1 if $$str =~ m{
+                    (?= \X{$abs_offset} \z )
+                    ( .* )
+                    ( \X{$abs_length} )
+                }x;
+            }
+        }
+    }
+    elsif (@_ == 4) {
+        if ($offset >= 0) {
+            if ($length >= 0) {
+                return $1 if $$str =~ s{
+                    #(?<= ^ \X{$offset} )
+                    (?<= ^ .{$offset} )
+                    ( \X{$length} )
+                }{$replacement}x;
+            }
+            else {
+                my $abs_length = abs $length;
+                return $1 if $$str =~ s{
+                    #(?<= ^ \X{$offset} )
+                    (?<= ^ .{$offset} )
+                    ( .* )
+                    (?= \X{$abs_length} \z )
+                }{$replacement}x;
+            }
+        }
+        else {
+            my $abs_offset = abs $offset;
+            if ($length >= 0) {
+                return $1 if $$str =~ s{
+                    (?= \X{$abs_offset} \z )
+                    ( \X{0,$length} )
+                }{$replacement}x;
+            }
+            else {
+                my $abs_length = abs $length;
+                return $1 if $$str =~ s{
+                    (?= \X{$abs_offset} \z )
+                    ( .* )
+                    (?= \X{$abs_length} )
+                }{$replacement}x;
+            }
+        }
+    }
 }
 
 sub grapheme_split (;$$) {
@@ -261,11 +343,19 @@ Works like C<reverse> except it reverses grapheme clusters in scalar context.
 
 Works like C<index> except the position is in grapheme clusters.
 
+=item grapheme_substr($string, $offset, $length, $replacement)
+
+=item grapheme_substr($string, $offset, $length)
+
+=item grapheme_substr($string, $offset)
+
+Works like C<substr> except the offset and length are in grapheme clusters.
+
 =back
 
 =head1 TODO
 
-C<grapheme_rindex>, C<grapheme_substr>
+C<grapheme_rindex>
 
 =head1 SEE ALSO
 

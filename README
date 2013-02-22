@@ -59,8 +59,14 @@ FUNCTIONS
     grapheme_index($string, $substring)
         Works like "index" except the position is in grapheme clusters.
 
+    grapheme_substr($string, $offset, $length, $replacement)
+    grapheme_substr($string, $offset, $length)
+    grapheme_substr($string, $offset)
+        Works like "substr" except the offset and length are in grapheme
+        clusters.
+
 TODO
-    "grapheme_rindex", "grapheme_substr"
+    "grapheme_rindex"
 
 SEE ALSO
     *   Unicode::GCString - String as sequence of UAX #29 grapheme clusters
