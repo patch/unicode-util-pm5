@@ -141,7 +141,7 @@ sub grapheme_substr (\$$;$$) {
                 my $abs_length = abs $length;
                 return $1 if $$str =~ m{
                     ^ \X{$offset}
-                    ( .* )
+                    ( .*? )
                     \X{$abs_length} \z
                 }x;
             }
@@ -158,7 +158,7 @@ sub grapheme_substr (\$$;$$) {
                 my $abs_length = abs $length;
                 return $1 if $$str =~ m{
                     (?= \X{$abs_offset} \z )
-                    ( .* )
+                    ( .*? )
                     ( \X{$abs_length} )
                 }x;
             }
@@ -167,18 +167,20 @@ sub grapheme_substr (\$$;$$) {
     elsif (@_ == 4) {
         if ($offset >= 0) {
             if ($length >= 0) {
+                $$str =~ m{ ^ ( \X{$offset} ) }x;
+                my $codepoint_offset = length $1;
                 return $1 if $$str =~ s{
-                    #(?<= ^ \X{$offset} )
-                    (?<= ^ .{$offset} )
+                    (?<= ^ .{$codepoint_offset} )
                     ( \X{0,$length} )
                 }{$replacement}x;
             }
             else {
+                $$str =~ m{ ^ ( \X{$offset} ) }x;
+                my $codepoint_offset = length $1;
                 my $abs_length = abs $length;
                 return $1 if $$str =~ s{
-                    #(?<= ^ \X{$offset} )
-                    (?<= ^ .{$offset} )
-                    ( .* )
+                    (?<= ^ .{$codepoint_offset} )
+                    ( .*? )
                     (?= \X{$abs_length} \z )
                 }{$replacement}x;
             }
@@ -195,7 +197,7 @@ sub grapheme_substr (\$$;$$) {
                 my $abs_length = abs $length;
                 return $1 if $$str =~ s{
                     (?= \X{$abs_offset} \z )
-                    ( .* )
+                    ( .*? )
                     (?= \X{$abs_length} )
                 }{$replacement}x;
             }
