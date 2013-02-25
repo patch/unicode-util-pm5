@@ -6,8 +6,6 @@ use Test::More tests => 22;
 use Test::Warn;
 use Unicode::Util qw( grapheme_chop grapheme_length );
 
-# Unicode::Util tests for grapheme_chop
-
 my $str = "xя\x{0308}ю\x{0301}";  # xя̈ю́
 
 is grapheme_chop($str), "ю\x{301}", 'grapheme_chop returns the last grapheme';

@@ -5,8 +5,6 @@ use open qw( :encoding(UTF-8) :std );
 use Test::More tests => 26;
 use Unicode::Util qw( grapheme_rindex );
 
-# Unicode::Util tests for grapheme_rindex
-
 # Simple - with just a single char
 
 is grapheme_rindex('Hello World', 'H'),  0, 'One char, at beginning';

@@ -6,8 +6,6 @@ use Test::More tests => 10;
 use Test::Warn;
 use Unicode::Util qw( grapheme_split );
 
-# Unicode::Util tests for grapheme_split
-
 is_deeply(
     [ grapheme_split("x\x{44E}\x{44E}\x{301}\x{44E}\x{301}\x{325}") ],  # xю́ю̥́
     [ 'x', "\x{44E}", "\x{44E}\x{301}", "\x{44E}\x{301}\x{325}" ],

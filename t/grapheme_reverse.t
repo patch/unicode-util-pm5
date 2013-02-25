@@ -6,8 +6,6 @@ use Test::More tests => 17;
 use Test::Warn;
 use Unicode::Util qw( grapheme_reverse );
 
-# Unicode::Util tests for grapheme_reverse
-
 my $str = "ю\x{0301}xя\x{0305}\x{0308}\x{0321}";  # ю́xя̡̅̈
 
 is(
