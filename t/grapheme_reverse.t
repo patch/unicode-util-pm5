@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use utf8;
 use open qw( :encoding(UTF-8) :std );
-use Test::More tests => 17;
+use Test::More tests => 21;
 use Test::Warn;
 use Unicode::Util qw( grapheme_reverse );
 
@@ -97,3 +97,12 @@ warning_like {
         'grapheme_reverse on undef in scalar context using $_'
     );
 } qr{^Use of uninitialized value}, 'warns on undef';
+
+# tests adapted from examples in perlfunc/reverse
+
+is_deeply [grapheme_reverse('world', 'Hello')], ['Hello', 'world'];
+is scalar grapheme_reverse('dlrow ,', 'olleH'), 'Hello, world';
+
+$_ = 'dlrow ,olleH';
+is_deeply [grapheme_reverse()], [], 'No output, list context';
+is scalar grapheme_reverse(), 'Hello, world';
