@@ -5,11 +5,8 @@ use strict;
 use warnings;
 use utf8;
 use parent 'Exporter';
-use Encode qw( encode find_encoding );
-use Unicode::Normalize qw( normalize );
-use Scalar::Util qw( looks_like_number );
 
-our $VERSION = '0.09_1';
+our $VERSION = '0.10';
 our @EXPORT_OK = qw(
     grapheme_length
     grapheme_chop
@@ -21,13 +18,7 @@ our @EXPORT_OK = qw(
     graph_length graph_chop graph_reverse
     byte_length code_length code_chop
 );
-our %EXPORT_TAGS = (
-    all    => \@EXPORT_OK,
-    length => [qw( graph_length code_length byte_length )], # deprecated
-);
-
-use constant DEFAULT_ENCODING => 'UTF-8';
-use constant IS_NORMAL_FORM   => qr{^ (?:NF)? K? [CD] $}xi;
+our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub grapheme_substr (\$$;$$);
 
@@ -97,8 +88,6 @@ sub grapheme_index ($$;$) {
 
     return -1;
 }
-
-# experimental functions
 
 sub grapheme_rindex ($$;$) {
     my ($str, $substr, $pos) = @_;
@@ -205,6 +194,8 @@ sub grapheme_substr (\$$;$$) {
     }
 }
 
+# experimental functions
+
 sub grapheme_split (;$$) {
     my ($str) = @_;
     my @graphs = $str =~ m{ \X }xg;
@@ -212,6 +203,15 @@ sub grapheme_split (;$$) {
 }
 
 # deprecated functions
+
+use Encode qw( encode find_encoding );
+use Unicode::Normalize qw( normalize );
+use Scalar::Util qw( looks_like_number );
+
+use constant DEFAULT_ENCODING => 'UTF-8';
+use constant IS_NORMAL_FORM   => qr{^ (?:NF)? K? [CD] $}xi;
+
+$EXPORT_TAGS{length} = [qw( graph_length code_length byte_length )];
 
 sub graph_length {
     my ($str) = @_;
@@ -277,7 +277,7 @@ Unicode::Util - Unicode grapheme-level versions of core Perl functions
 
 =head1 VERSION
 
-This document describes Unicode::Util v0.09_1.
+This document describes Unicode::Util v0.10.
 
 =head1 SYNOPSIS
 
