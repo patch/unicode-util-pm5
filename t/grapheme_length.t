@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use utf8;
 use open qw( :encoding(UTF-8) :std );
-use Test::More tests => 11;
+use Test::More tests => 12;
 use Test::Warn;
 use Unicode::Util qw( grapheme_length );
 
@@ -25,6 +25,16 @@ undef $_;
 warning_like {
     is grapheme_length(), 0, '0 when called on undef using $_';
 } qr{^Use of uninitialized value}, 'warns on undef';
+
+if ($] >= 5.012) {
+    is grapheme_length("\x0D\x0A"), 1, 'Perl v5.12 supports extended grapheme clusters';
+}
+elsif ($] < 5.011) {
+    is grapheme_length("\x0D\x0A"), 2, 'Perl v5.10 only supports legacy grapheme clusters';
+}
+else {
+    pass 'Note sure which version of Perl v5.11 added extended grapheme clusters';
+}
 
 # tests adapted from Unicode::GCString (t/10gcstring.t)
 
